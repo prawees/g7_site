@@ -1,6 +1,6 @@
 # RAMA G7 Design System
 
-**RAMA G7 Club** (ชมรมแพทย์นวัตกรรามา) is the Medical Innovation Club at Ramathibodi Hospital, Mahidol University. The club is run by medical students (5th–6th year and above) who build, evaluate, and write critically about medical technology — especially AI.
+**RAMA G7 Club** (ชมรมแพทย์นวัตกรรามา ) is the Medical Innovation Club at Ramathibodi Hospital, Mahidol University. The club is run by medical students (5th–6th year and above) who build, evaluate, and write critically about medical technology — especially AI.
 
 The site lives at **g7.prawees.com** and serves dual purposes: an editorial magazine for medical AI pieces, and a club presence (workshops, member content, join flow).
 
