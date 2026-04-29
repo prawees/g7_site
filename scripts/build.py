@@ -263,12 +263,35 @@ def reading_time_minutes(text):
     return max(1, round(words / 220))
 
 
+THAI_MONTHS_ABBR = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.",
+                    "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."]
+
+
 def format_date_label(iso):
     try:
         d = datetime.date.fromisoformat(iso)
     except Exception:
         return iso
-    return d.strftime("%d %b %Y").upper()
+    return f"{d.day} {THAI_MONTHS_ABBR[d.month - 1]} {d.year + 543}"
+
+
+TAG_CLASS_MAP = {
+    "AI":            "tag-ai",
+    "รังสีวิทยา":    "tag-radiology",
+    "กฎหมาย":         "tag-law",
+    "NLP":           "tag-nlp",
+    "คลินิก":        "tag-clinical",
+}
+
+
+def tag_class(tag):
+    return TAG_CLASS_MAP.get(tag.strip(), "tag-default")
+
+
+def parse_tags(value):
+    if not value:
+        return []
+    return [t.strip() for t in value.split(",") if t.strip()]
 
 
 def render_references_block(refs):
@@ -348,6 +371,8 @@ def build_post(md_path):
         "date_label": format_date_label(meta["date"]),
         "author": meta["author"],
         "category": meta["category"],
+        "tags": parse_tags(meta.get("tags", "")),
+        "summary": meta.get("summary", meta["lede"]),
         "description": meta.get("description", meta["lede"]),
         "url": f"/posts/{slug}.html",
     }
@@ -358,14 +383,35 @@ def build_index(posts):
 
     cards = []
     for i, p in enumerate(posts, 1):
+        tag_html = "".join(
+            f'<span class="tag {tag_class(t)}">{html.escape(t)}</span>'
+            for t in p["tags"]
+        )
+        thumb_class = f"t{(i - 1) % 3}"
         cards.append(f'''
-<a class="post-card fade-up" href="{p["url"]}">
-  <div class="post-card-num">№ {i:02d}</div>
-  <div>
-    <div class="post-card-meta">{html.escape(p["date_label"])} &nbsp;·&nbsp; {html.escape(p["category"])}</div>
+<a class="post-card" href="{p["url"]}">
+  <div class="post-card-content">
+    <div class="post-card-toprow">
+      <span class="post-card-num">{i:02d}</span>
+      <span class="post-card-dot">·</span>
+      <span class="post-card-meta">{html.escape(p["date_label"])}</span>
+      <span class="post-card-dot">·</span>
+      <span class="post-card-meta">{html.escape(p["category"])}</span>
+      {tag_html}
+    </div>
     <div class="post-card-title">{html.escape(p["title"])}</div>
-    <div class="post-card-summary">{html.escape(p["lede"])}</div>
-    <div class="post-card-author">By {html.escape(p["author"])}</div>
+    <div class="post-card-summary">{html.escape(p["summary"])}</div>
+    <div class="post-card-author">{html.escape(p["author"])}, RAMA G7</div>
+  </div>
+  <div class="post-card-thumb">
+    <div class="post-card-thumb-grad {thumb_class}">
+      <svg width="40" height="40" viewBox="0 0 44 44" fill="none" style="opacity:0.25">
+        <rect x="8" y="4" width="28" height="36" rx="2" stroke="white" stroke-width="1.5"/>
+        <circle cx="22" cy="22" r="9" stroke="white" stroke-width="1.5"/>
+        <line x1="22" y1="4" x2="22" y2="40" stroke="white" stroke-width="0.75" stroke-dasharray="2 2"/>
+      </svg>
+    </div>
+    <div class="post-card-thumb-fade"></div>
   </div>
 </a>''')
 
@@ -382,7 +428,7 @@ def build_index(posts):
 
 
 def build_static_page(slug, title, content_html, description, nav_key):
-    page = f'<div class="static-page fade-up">{content_html}</div>'
+    page = f'<div class="static-wrap"><div class="static-page fade-up">{content_html}</div></div>'
     full = render_layout(
         page, title=f"{title} — RAMA G7 Club",
         description=description, active_nav=nav_key,
@@ -419,21 +465,20 @@ def main():
     print(f"  built index ({len(posts)} posts)")
 
     about_html = '''
-<h1>เกี่ยวกับ RAMA G7</h1>
-<p class="lede" style="font-size: 1.2rem; line-height: 1.55; color: var(--muted); font-family: var(--font-display); font-style: italic; margin-bottom: var(--s-6);">ชมรมนวัตกรรมทางการแพทย์ที่ดำเนินโดยนักศึกษาที่อยากสร้างมากกว่ารวบรวม</p>
+<h1>About RAMA G7</h1>
+<p class="lede">ชมรมแพทย์นวัตกรรามา — Medical Innovation Club at Ramathibodi Hospital, Mahidol University.</p>
 
-<p>RAMA G7 คือชมรมแพทย์นวัตกรรามา ที่โรงพยาบาลรามาธิบดี มหาวิทยาลัยมหิดล เราเป็นนักศึกษาแพทย์ที่สนใจ medical AI และ biomedical engineering และคิดว่าวงการนี้ต้องการการเขียนที่รอบคอบมากกว่าการโฆษณา</p>
+<p>RAMA G7 คือชมรมของนักศึกษาแพทย์รามาธิบดี ที่สร้าง ประเมิน และเขียนเรื่องเทคโนโลยีทางการแพทย์อย่างวิจารณ์ เว็บไซต์นี้ลงงานเขียนเรื่อง medical AI สัปดาห์ละหนึ่งชิ้น ทุกชิ้นมีชื่อผู้เขียน เรายึดว่าความเฉพาะเจาะจงสำคัญกว่าการโฆษณา และทุกข้อกล่าวอ้างต้องมีตัวเลขรองรับ</p>
 
-<p>เว็บนี้รวมงานเขียนและบันทึกจากสมาชิก ทุกชิ้นลงชื่อผู้เขียน อ้างอิงสไตล์ Vancouver เราพยายามบอกว่างานวิจัยแต่ละชิ้นพิสูจน์อะไรไม่ได้ ควบคู่ไปกับสิ่งที่พิสูจน์ได้</p>
+<p>งานของชมรมแบ่งเป็นสามสาย ข่าว medical AI แบบรวบรวมอัตโนมัติ ลงเฉพาะ Facebook งานเขียนบทความบนเว็บนี้ และงานสมาชิก ได้แก่ workshop, project journal, และ member spotlight</p>
 
-<h2>คณะกรรมการ</h2>
-<ul>
-  <li><strong>Big</strong>, ประธาน สนใจ robotics และ neurosurgery</li>
-  <li><strong>Smart</strong>, รองประธาน สนใจ PM&amp;R, biosensor research, AI tooling</li>
-</ul>
+<p>การแก้ไขข้อมูลที่ผิดทำอย่างเปิดเผย ไม่ลบเงียบ ทุกชิ้นมีชื่อผู้เขียนและระบุข้อจำกัดอย่างน้อยหนึ่งข้อ</p>
 
-<h2>ติดต่อ</h2>
-<p>คำถามด้านบทความ ข้อเสนอแนะ paper หรือความร่วมมือ <a href="mailto:rama.g7.club@gmail.com">rama.g7.club@gmail.com</a></p>
+<hr>
+
+<p><strong>President</strong> — Big, Neurosurgery &amp; Robotics<br>
+<strong>Vice President / Editor</strong> — Smart, PM&amp;R<br>
+<strong>Contact</strong> — <a href="mailto:rama.g7.club@gmail.com">rama.g7.club@gmail.com</a></p>
 '''
     build_static_page("about", "About", about_html,
                       "About RAMA G7 Club at Ramathibodi Hospital, Mahidol University.",
@@ -441,17 +486,33 @@ def main():
     print("  built about")
 
     join_html = '''
-<h1>สมัครเข้า RAMA G7</h1>
-<p class="lede" style="font-size: 1.2rem; line-height: 1.55; color: var(--muted); font-family: var(--font-display); font-style: italic; margin-bottom: var(--s-6);">เรารับสมาชิกใหม่ปีละครั้ง</p>
+<h1>Join RAMA G7</h1>
+<p class="lede">เรามองหานักศึกษาแพทย์รามาธิบดีที่อยากเขียน สร้าง หรือประเมินเทคโนโลยีทางการแพทย์ ความอยากรู้และความเฉพาะเจาะจงสำคัญกว่าโปรไฟล์</p>
 
-<p>เปิดรับสมาชิกรุ่น 2026 แล้ว เรามองหานักศึกษาแพทย์ทุกชั้นปีที่อยาก <em>สร้าง</em> งานนวัตกรรมการแพทย์ ไม่ใช่แค่อ่าน</p>
+<form class="form" action="https://forms.gle/ps8oq7SiBsEVEcjK8" method="get" target="_blank" rel="noopener">
+  <div class="form-row">
+    <label>Name</label>
+    <input type="text" name="name" placeholder="Your name" required>
+  </div>
+  <div class="form-row">
+    <label>Year / Faculty</label>
+    <input type="text" name="year" placeholder="e.g. 5th year, Faculty of Medicine" required>
+  </div>
+  <div class="form-row">
+    <label>Email</label>
+    <input type="email" name="email" placeholder="Your email" required>
+  </div>
+  <div class="form-row">
+    <label>What do you want to work on?</label>
+    <textarea name="interests" rows="4" placeholder="Writing, building, evaluating — tell us what draws you here." required></textarea>
+  </div>
+  <button type="submit" class="btn">Send</button>
+</form>
 
-<h2>เรามองหาใคร</h2>
-<p>เราสนใจนักศึกษาที่เคยเริ่มโปรเจกต์ที่ยังไม่จบ อ่าน paper อย่างวิจารณ์ได้ หรือยินดีจะใช้เวลาเดือนละไม่กี่ชั่วโมงทำอะไรเป็นรูปธรรมออกมา ไม่จำเป็นต้องมีพื้นฐานเทคนิคแน่น แต่ต้องพร้อมเขียนงานในชื่อตัวเอง</p>
+<hr>
 
-<h2>วิธีสมัคร</h2>
-<p>แบบฟอร์มสมัคร <a href="https://forms.gle/ps8oq7SiBsEVEcjK8" target="_blank" rel="noopener">forms.gle/ps8oq7SiBsEVEcjK8</a></p>
-<p>คำถามก่อนสมัคร <a href="mailto:rama.g7.club@gmail.com">rama.g7.club@gmail.com</a></p>
+<p>Or apply directly via <a href="https://forms.gle/ps8oq7SiBsEVEcjK8" target="_blank" rel="noopener">forms.gle/ps8oq7SiBsEVEcjK8</a><br>
+Questions before applying — <a href="mailto:rama.g7.club@gmail.com">rama.g7.club@gmail.com</a></p>
 '''
     build_static_page("join", "Join", join_html,
                       "Join RAMA G7 Club. Application open for the 2026 cohort.",
