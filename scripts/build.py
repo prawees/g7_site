@@ -607,7 +607,7 @@ def build_ig_generator(posts, members):
     
     page = template.replace("{{posts_json}}", posts_json).replace("{{members_json}}", members_json)
     
-    out_dir = PUBLIC / "admin" / "ig"
+    out_dir = PUBLIC / "tools" / "ig"
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "index.html").write_text(page, encoding="utf-8")
 
