@@ -152,7 +152,13 @@ li { margin-bottom: var(--s-2); }
   padding: 14px 32px;
 }
 
-.masthead-left { display: flex; align-items: center; gap: 16px; }
+.masthead-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
 
 .masthead-mark {
   display: flex;
@@ -263,13 +269,16 @@ main { padding: 0; }
   max-width: var(--page-max);
   margin: 0 auto;
   padding: 48px 32px 56px;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 32px;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
   position: relative;
   z-index: 2;
 }
+
+.hero-text { flex: 1 1 360px; min-width: 0; }
 
 .hero-wordmark {
   font-family: var(--font-wordmark);
@@ -307,6 +316,7 @@ main { padding: 0; }
   display: flex;
   align-items: flex-end;
   gap: 14px;
+  flex: 0 0 auto;
 }
 
 .hero-robot {
@@ -381,15 +391,15 @@ main { padding: 0; }
 
 .post-list {
   max-width: var(--content-max);
-  display: flex;
-  flex-direction: column;
+  margin: 0 auto;
 }
 
 .post-list-end { height: 1px; background: var(--rule); }
 
 .post-card {
   display: grid;
-  grid-template-columns: 1fr 130px;
+  grid-template-columns: minmax(0, 1fr) 130px;
+  width: 100%;
   border-top: 1px solid var(--rule);
   text-decoration: none;
   border-bottom: 0;
