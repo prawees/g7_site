@@ -318,7 +318,7 @@ def load_members():
         meta, body = parse_frontmatter(md.read_text(encoding="utf-8"))
         slug = re.sub(r"^\d+[-_]", "", md.stem)
         meta["slug"] = slug
-        meta["url"] = f"/members/{slug}.html"
+        meta["url"] = f"/members/{slug}/"
         meta["bio_html"] = render_markdown(body) if body.strip() else ""
         out.append(meta)
     return out
@@ -404,7 +404,7 @@ def build_member_page(member, posts):
 
     page_html = f'''
 <div class="member-profile fade-up">
-  <a class="article-back" href="/about.html">← About</a>
+  <a class="article-back" href="/about/">← About</a>
   <div class="member-profile-head">
     <div class="member-profile-photo">{member_photo_html(member)}</div>
     <div class="member-profile-info">
@@ -425,7 +425,7 @@ def build_member_page(member, posts):
         description=f'Profile of {member.get("name","")} ({member.get("nickname","")}), {member.get("role","")}.',
         active_nav="about",
     )
-    out_path = PUBLIC / "members" / f"{member['slug']}.html"
+    out_path = PUBLIC / "members" / member['slug'] / "index.html"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(full, encoding="utf-8")
 
@@ -515,7 +515,7 @@ def build_post(md_path, members=None):
     )
 
     slug = md_path.stem
-    out_path = PUBLIC / "posts" / f"{slug}.html"
+    out_path = PUBLIC / "posts" / slug / "index.html"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(full_html, encoding="utf-8")
 
@@ -531,7 +531,7 @@ def build_post(md_path, members=None):
         "tags": parse_tags(meta.get("tags", "")),
         "summary": meta.get("summary", meta["lede"]),
         "description": meta.get("description", meta["lede"]),
-        "url": f"/posts/{slug}.html",
+        "url": f"/posts/{slug}/",
         "body_html": html_body,
         "refs_block": refs_block,
     }
@@ -592,7 +592,9 @@ def build_static_page(slug, title, content_html, description, nav_key):
         page, title=f"{title} | RAMA G7 Club",
         description=description, active_nav=nav_key,
     )
-    (PUBLIC / f"{slug}.html").write_text(full, encoding="utf-8")
+    out_dir = PUBLIC / slug
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "index.html").write_text(full, encoding="utf-8")
 
 
 def build_ig_generator(posts, members):
@@ -605,9 +607,9 @@ def build_ig_generator(posts, members):
     
     page = template.replace("{{posts_json}}", posts_json).replace("{{members_json}}", members_json)
     
-    out_dir = PUBLIC / "admin"
+    out_dir = PUBLIC / "admin" / "ig"
     out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / "ig.html").write_text(page, encoding="utf-8")
+    (out_dir / "index.html").write_text(page, encoding="utf-8")
 
 
 def copy_static():
