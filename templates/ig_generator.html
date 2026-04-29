@@ -180,11 +180,17 @@
       let roleHtml = 'RAMA G7 Member';
       
       if (member) {
+        const init = (member.nickname || member.name || "").substring(0,2);
+        const fallbackBg = `background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display:flex; align-items:center; justify-content:center; font-size:50px; font-family:var(--font-wordmark); color:white;`;
+        
         if (member.photo) {
-          photoHtml = `<div class="author-photo"><img src="/static/img/members/${member.photo}"></div>`;
+          photoHtml = `
+            <div class="author-photo" style="position: relative; ${fallbackBg}">
+              ${init}
+              <img src="/static/img/members/${member.photo}?v=${Date.now()}" style="position: absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;" onerror="this.style.opacity=0">
+            </div>`;
         } else {
-          const init = (member.nickname || member.name || "").substring(0,2);
-          photoHtml = `<div class="author-photo" style="display:flex;align-items:center;justify-content:center;font-size:50px;font-family:var(--font-wordmark);color:white">${init}</div>`;
+          photoHtml = `<div class="author-photo" style="${fallbackBg}">${init}</div>`;
         }
         if (member.name) {
           roleHtml = member.name;
