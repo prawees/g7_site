@@ -297,7 +297,7 @@ def parse_tags(value):
 def member_photo_html(m):
     photo = m.get("photo", "")
     if photo:
-        return f'<img src="/static/img/members/{html.escape(photo)}" alt="{html.escape(m.get("name",""))}">'
+        return f'<img src="/static/img/members/{html.escape(photo)}" alt="{html.escape(m.get("name",""))}" onerror="this.style.display=\\\'none\\\'">'
     initials = (m.get("nickname") or m.get("name") or "").strip()[:2]
     return f'<div class="member-initials">{html.escape(initials)}</div>'
 
@@ -448,6 +448,7 @@ def render_layout(content, title, description, og_type="website",
     out = out.replace("{{description}}", html.escape(description))
     out = out.replace("{{og_type}}", og_type)
     out = out.replace("{{year}}", str(datetime.date.today().year))
+    out = out.replace("{{build_time}}", str(int(datetime.datetime.now().timestamp())))
     for slot, key in [("{{nav_home}}", "home"),
                       ("{{nav_about}}", "about"),
                       ("{{nav_join}}", "join")]:
