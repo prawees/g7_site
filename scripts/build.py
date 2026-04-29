@@ -419,21 +419,21 @@ def main():
     print(f"  built index ({len(posts)} posts)")
 
     about_html = '''
-<h1>About RAMA G7</h1>
-<p class="lede" style="font-size: 1.2rem; line-height: 1.55; color: var(--muted); font-family: var(--font-display); font-style: italic; margin-bottom: var(--s-6);">A medical innovation club run by students who would rather build than aggregate.</p>
+<h1>เกี่ยวกับ RAMA G7</h1>
+<p class="lede" style="font-size: 1.2rem; line-height: 1.55; color: var(--muted); font-family: var(--font-display); font-style: italic; margin-bottom: var(--s-6);">ชมรมนวัตกรรมทางการแพทย์ที่ดำเนินโดยนักศึกษาที่อยากสร้างมากกว่ารวบรวม</p>
 
-<p>RAMA G7 is the medical innovation club at Ramathibodi Hospital, Mahidol University. We are medical students who care about medical AI and biomedical engineering, and who think the field needs more careful writing and less hype.</p>
+<p>RAMA G7 คือชมรมแพทย์นวัตกรรามา ที่โรงพยาบาลรามาธิบดี มหาวิทยาลัยมหิดล เราเป็นนักศึกษาแพทย์ที่สนใจ medical AI และ biomedical engineering และคิดว่าวงการนี้ต้องการการเขียนที่รอบคอบมากกว่าการโฆษณา</p>
 
-<p>This site collects editorial pieces and notes from our members. Every piece is signed by its author. Citations are Vancouver style. We try to mention what each finding does not prove, alongside what it does.</p>
+<p>เว็บนี้รวมงานเขียนและบันทึกจากสมาชิก ทุกชิ้นลงชื่อผู้เขียน อ้างอิงสไตล์ Vancouver เราพยายามบอกว่างานวิจัยแต่ละชิ้นพิสูจน์อะไรไม่ได้ ควบคู่ไปกับสิ่งที่พิสูจน์ได้</p>
 
-<h2>The board</h2>
+<h2>คณะกรรมการ</h2>
 <ul>
-  <li><strong>Big</strong>, President. Robotics, neurosurgery interest.</li>
-  <li><strong>Smart</strong>, Vice President. PM&amp;R interest, biosensor research, AI tooling.</li>
+  <li><strong>Big</strong>, ประธาน สนใจ robotics และ neurosurgery</li>
+  <li><strong>Smart</strong>, รองประธาน สนใจ PM&amp;R, biosensor research, AI tooling</li>
 </ul>
 
-<h2>Contact</h2>
-<p>Editorial questions, paper recommendations, collaboration. <a href="mailto:rama.g7.club@gmail.com">rama.g7.club@gmail.com</a></p>
+<h2>ติดต่อ</h2>
+<p>คำถามด้านบทความ ข้อเสนอแนะ paper หรือความร่วมมือ <a href="mailto:rama.g7.club@gmail.com">rama.g7.club@gmail.com</a></p>
 '''
     build_static_page("about", "About", about_html,
                       "About RAMA G7 Club at Ramathibodi Hospital, Mahidol University.",
@@ -441,17 +441,17 @@ def main():
     print("  built about")
 
     join_html = '''
-<h1>Join RAMA G7</h1>
-<p class="lede" style="font-size: 1.2rem; line-height: 1.55; color: var(--muted); font-family: var(--font-display); font-style: italic; margin-bottom: var(--s-6);">We accept new members once a year.</p>
+<h1>สมัครเข้า RAMA G7</h1>
+<p class="lede" style="font-size: 1.2rem; line-height: 1.55; color: var(--muted); font-family: var(--font-display); font-style: italic; margin-bottom: var(--s-6);">เรารับสมาชิกใหม่ปีละครั้ง</p>
 
-<p>Recruitment for the 2026 cohort is open. We are looking for medical students of any year who want to <em>build</em> in medical innovation, not just read about it.</p>
+<p>เปิดรับสมาชิกรุ่น 2026 แล้ว เรามองหานักศึกษาแพทย์ทุกชั้นปีที่อยาก <em>สร้าง</em> งานนวัตกรรมการแพทย์ ไม่ใช่แค่อ่าน</p>
 
-<h2>Who we look for</h2>
-<p>We are most interested in students who have started a project they did not finish, who can read a paper critically, or who are willing to commit a few hours a month to ship something concrete. You do not need a strong technical background. You do need to be willing to write under your own name.</p>
+<h2>เรามองหาใคร</h2>
+<p>เราสนใจนักศึกษาที่เคยเริ่มโปรเจกต์ที่ยังไม่จบ อ่าน paper อย่างวิจารณ์ได้ หรือยินดีจะใช้เวลาเดือนละไม่กี่ชั่วโมงทำอะไรเป็นรูปธรรมออกมา ไม่จำเป็นต้องมีพื้นฐานเทคนิคแน่น แต่ต้องพร้อมเขียนงานในชื่อตัวเอง</p>
 
-<h2>How to apply</h2>
-<p>Application form. <a href="https://forms.gle/ps8oq7SiBsEVEcjK8" target="_blank" rel="noopener">forms.gle/ps8oq7SiBsEVEcjK8</a></p>
-<p>Questions before applying. <a href="mailto:rama.g7.club@gmail.com">rama.g7.club@gmail.com</a></p>
+<h2>วิธีสมัคร</h2>
+<p>แบบฟอร์มสมัคร <a href="https://forms.gle/ps8oq7SiBsEVEcjK8" target="_blank" rel="noopener">forms.gle/ps8oq7SiBsEVEcjK8</a></p>
+<p>คำถามก่อนสมัคร <a href="mailto:rama.g7.club@gmail.com">rama.g7.club@gmail.com</a></p>
 '''
     build_static_page("join", "Join", join_html,
                       "Join RAMA G7 Club. Application open for the 2026 cohort.",
@@ -459,7 +459,7 @@ def main():
     print("  built join")
 
     # 404
-    notfound = '<div class="static-page"><h1>Not found.</h1><p>That page is not here. Try the <a href="/">editorial index</a>.</p></div>'
+    notfound = '<div class="static-page"><h1>ไม่พบหน้านี้</h1><p>ลองกลับไปที่ <a href="/">หน้ารวมบทความ</a></p></div>'
     full404 = render_layout(notfound, "Not found — RAMA G7 Club",
                              "Page not found.", active_nav="")
     (PUBLIC / "404.html").write_text(full404, encoding="utf-8")
