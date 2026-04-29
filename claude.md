@@ -4,10 +4,10 @@ University. President is Big, neurosurgery and robotics interest.
 I am 5th to 6th year medical student, PM&R interested.
 
 You are working in the repository for our editorial website
-g7.prawees.com. Read the README.md before doing anything else,
+g7club.org. Read the README.md before doing anything else,
 it is the operating manual for this codebase.
 
-ARCHITECTURE
+ARCHITECTURE 
 The site is a static site. Markdown files in content/posts/ are
 built by scripts/build.py into HTML in public/, deployed to
 Hostinger via FTP through GitHub Actions on push to main. No
