@@ -1,0 +1,20 @@
+# build output, regenerated on every deploy
+public/
+
+# previews and local artifacts
+preview_*.png
+*.log
+
+# python
+__pycache__/
+*.pyc
+.venv/
+
+# editor
+.DS_Store
+.vscode/
+.idea/
+
+# environment
+.env
+*.local

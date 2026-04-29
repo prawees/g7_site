@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{{description}}">
+  <title>{{title}}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono&family=Noto+Serif+Thai:wght@400;600&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="icon" href="/static/img/favicon.png">
+
+  <meta property="og:title" content="{{title}}">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:type" content="{{og_type}}">
+  <meta property="og:site_name" content="RAMA G7 Club">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="/" class="masthead-mark" aria-label="RAMA G7 Club home">
+      <img src="/static/img/logo.png" alt="">
+      <span class="masthead-title">RAMA<span class="accent"> G7</span></span>
+    </a>
+    <div class="masthead-tagline">Medical Innovation Club, Ramathibodi</div>
+    <nav class="masthead-nav">
+      <a href="/" class="{{nav_home}}">Editorial</a>
+      <a href="/about.html" class="{{nav_about}}">About</a>
+      <a href="/join.html" class="{{nav_join}}">Join</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  {{content}}
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>RAMA G7 Club</h4>
+      <p style="color: var(--muted-soft); margin-bottom: var(--s-3);">Medical students who build and critically evaluate medical technology. Ramathibodi Hospital, Mahidol University.</p>
+    </div>
+    <div>
+      <h4>Elsewhere</h4>
+      <a href="https://facebook.com/rama.g7.club" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://instagram.com/rama.g7.club" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:rama.g7.club@gmail.com">Email the editors</a>
+    </div>
+  </div>
+  <div class="footer-meta">
+    © {{year}} RAMA G7 Club. Edited by Smart and Big.
+  </div>
+</footer>
+
+</body>
+</html>
