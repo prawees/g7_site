@@ -656,8 +656,8 @@ def main():
 
 <h2>งานของชมรม</h2>
 <ul>
-  <li><strong>บทความบนเว็บ.</strong> งานเขียนด้าน เทคโนโลยีสุขภาพ ที่ลงชื่อผู้เขียนชัดเจนและระบุข้อจำกัดของเทคโนโลยีนั้นๆ อย่างตรงไปตรงมา</li>
-  <li><strong>ข่าวสาร.</strong> สรุปประเด็น เทคโนโลยีสุขภาพ แบบรวบรวมอัตโนมัติทาง Facebook</li>
+  <li><strong>บทความบนเว็บ.</strong> งานเขียนด้านเทคโนโลยีสุขภาพโดยสมาชิกชมรม</li>
+  <li><strong>ข่าวสาร.</strong> สรุปประเด็นงานวิจัยด้านเทคโนโลยีสุขภาพ และเผยแพร่ผ่าน Instagram และ Facebook</li>
   <li><strong>พื้นที่สมาชิก.</strong> Workshop, Project Journal และ Member Spotlight</li>
 </ul>
 
@@ -666,8 +666,8 @@ def main():
 
 <h2>Team &amp; Contact</h2>
 <ul>
-  <li><strong>President.</strong> พี่บิ๊ก, ปรเมศวร์ วัฒนประสาน. <a href="mailto:porames.vat@student.mahidol.edu">porames.vat@student.mahidol.edu</a></li>
-  <li><strong>Vice President / Editor.</strong> พี่สมาร์ท, ประวีร์ สินวีรุทัย. <a href="mailto:prawee.sin@student.mahidol.edu">prawee.sin@student.mahidol.edu</a></li>
+  <li><strong>President.</strong> บิ๊ก, ปรเมศวร์ วัฒนประสาน. <a href="mailto:porames.vat@student.mahidol.edu">porames.vat@student.mahidol.edu</a></li>
+  <li><strong>Vice President / Editor.</strong> สมาร์ท, ประวีร์ สินวีรุทัย. <a href="mailto:prawee.sin@student.mahidol.edu">prawee.sin@student.mahidol.edu</a></li>
   <li><strong>Club Email.</strong> <a href="mailto:rama.g7.club@gmail.com">rama.g7.club@gmail.com</a></li>
 </ul>
 ''' + members_section
