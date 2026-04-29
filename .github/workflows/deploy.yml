@@ -27,7 +27,8 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./public/
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          # CHANGED: Pointing specifically to the g7club.org root
+          server-dir: public_html/
           dangerous-clean-slate: false
           exclude: |
             **/.git*

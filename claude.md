@@ -11,9 +11,11 @@ ARCHITECTURE
 The site is a static site. Markdown files in content/posts/ are
 built by scripts/build.py into HTML in public/, deployed to
 Hostinger via FTP through GitHub Actions on push to main. No
-frameworks, no npm, just Python standard library. The whole
-build script is about 250 lines and you should read it before
-making changes.
+frameworks, no npm, just Python standard library. We use
+clean URLs (generating `index.html` inside folders). The build
+script also generates a secret IG Carousel generator at `/tools/ig/`
+using client-side JS (`html2canvas`). The whole build script is 
+around 700 lines and you should read it before making changes.
 
 THREE CONTENT STREAMS
 1. Auto-curated medical AI news, Facebook only, daily, low signal
@@ -58,16 +60,19 @@ Create content/posts/YYYY-MM-DD-slug.md with front matter
 
   ---
   title: Sentence-case title without a colon
+  subtitle: Optional flavor heading or subtitle
   lede: One or two sentences, what the piece is about
   date: 2026-04-29
   author: Smart
   category: Paper Notes
+  tags: AI, รังสีวิทยา
   description: Optional, used for SEO if provided
   ---
 
-Then body in Markdown, then ## References at the end with
-numbered Vancouver entries. Build script handles inline citation
-linking.
+Then body in Markdown (supports headers, lists, quotes, inline 
+formatting, and images `![alt](/static/img/...png)`). Then ## References 
+at the end with numbered Vancouver entries. Build script handles inline 
+citation linking.
 
 DEPLOY
 Push to main, GitHub Actions builds and deploys via FTP to
@@ -85,6 +90,7 @@ Common requests
 - Tweak the CSS to fix a layout issue
 - Add a new content category
 - Build a new feature into scripts/build.py
+- Enhance or debug the IG Carousel Generator in `templates/ig_generator.html`
 
 WHAT NOT TO DO
 - Do not introduce npm, Node, or any JS framework, the site is
