@@ -66,7 +66,16 @@
     .slide-category { 
       font-family: var(--font-ui); font-size: 32px; font-weight: 600; letter-spacing: 0.15em; 
       text-transform: uppercase; color: var(--accent-deep); margin-bottom: 40px; 
+      display: flex; align-items: center; gap: 15px;
     }
+    .slide-tag { display: inline-block; padding: 6px 16px; border-radius: 8px; font-size: 22px; font-family: var(--font-ui); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .tag-default { background: #e2e8f0; color: #475569; }
+    .tag-ai { background: #e0f2fe; color: #0284c7; }
+    .tag-radiology { background: #fce7f3; color: #db2777; }
+    .tag-law { background: #fef3c7; color: #d97706; }
+    .tag-nlp { background: #e0e7ff; color: #4f46e5; }
+    .tag-clinical { background: #dcfce7; color: #16a34a; }
+
     .slide-title { 
       font-family: var(--font-display); font-size: 68px; font-weight: 700; 
       line-height: 1.15; color: var(--ink); margin-bottom: 20px; letter-spacing: -0.01em; 
@@ -275,10 +284,23 @@
       const authorHtml = getMemberHtml(post.author);
 
       // Slide 1
+      const tagHtml = post.tags.map(t => {
+        let tagClass = 'tag-default';
+        if (t === 'AI') tagClass = 'tag-ai';
+        if (t === 'รังสีวิทยา') tagClass = 'tag-radiology';
+        if (t === 'กฎหมาย') tagClass = 'tag-law';
+        if (t === 'NLP') tagClass = 'tag-nlp';
+        if (t === 'คลินิก') tagClass = 'tag-clinical';
+        return `<span class="slide-tag ${tagClass}">${t}</span>`;
+      }).join('');
+
       let subtitleHtml = post.subtitle ? `<div class="slide-subtitle">${post.subtitle}</div>` : '';
       const s1Content = `
         <div class="slide-header">
-          <div class="slide-category">${post.category}</div>
+          <div class="slide-category">
+            <span>${post.category}</span>
+            ${tagHtml}
+          </div>
           ${heroHtml}
           <div class="slide-title">${post.title}</div>
           ${subtitleHtml}
@@ -302,8 +324,16 @@
       slides.push(createSlide(ledeContent, 2, totalPages, null));
 
       // Slides 3+
+      const sillyElements = [
+        `<svg width="100" height="100" viewBox="0 0 100 100" style="position:absolute; top: 50px; right: -10px; opacity: 0.15;"><circle cx="50" cy="50" r="40" stroke="var(--accent-deep)" stroke-width="8" fill="none" stroke-dasharray="15 15"/></svg>`,
+        `<svg width="150" height="40" viewBox="0 0 150 40" style="position:absolute; bottom: 80px; left: -30px; opacity: 0.15;"><path d="M0,20 Q15,0 30,20 T60,20 T90,20 T120,20 T150,20" stroke="var(--accent)" stroke-width="8" fill="none"/></svg>`,
+        `<svg width="80" height="80" viewBox="0 0 80 80" style="position:absolute; top: 40%; right: -20px; opacity: 0.15;"><rect x="10" y="10" width="60" height="60" stroke="var(--ink)" stroke-width="6" fill="none" transform="rotate(45 40 40)"/></svg>`,
+        `<svg width="60" height="150" viewBox="0 0 60 150" style="position:absolute; top: 150px; left: -10px; opacity: 0.15;"><line x1="10" y1="10" x2="10" y2="140" stroke="var(--accent-deep)" stroke-width="8"/><line x1="30" y1="30" x2="30" y2="120" stroke="var(--accent-deep)" stroke-width="8"/><line x1="50" y1="50" x2="50" y2="100" stroke="var(--accent-deep)" stroke-width="8"/></svg>`,
+      ];
+
       chunks.forEach((chunkHtml, idx) => {
-        const sContent = `<div class="slide-body">${chunkHtml}</div>`;
+        const silly = sillyElements[idx % sillyElements.length];
+        const sContent = `<div class="slide-body">${silly}${chunkHtml}</div>`;
         slides.push(createSlide(sContent, idx + 3, totalPages, null));
       });
       
@@ -343,8 +373,8 @@
           backgroundColor: null
         });
         const link = document.createElement('a');
-        link.download = `slide_${i + 1}.jpg`;
-        link.href = canvas.toDataURL('image/jpeg', 0.9);
+        link.download = `slide_${i + 1}.png`;
+        link.href = canvas.toDataURL('image/png');
         link.click();
         
         await new Promise(r => setTimeout(r, 500));
