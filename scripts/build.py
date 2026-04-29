@@ -680,7 +680,9 @@ def main():
 <h1>Join Us</h1>
 <p class="lede">เรามองหานักศึกษาแพทย์รามาฯ ที่สนใจอ่าน เขียน สร้าง หรือประเมินเทคโนโลยีไปด้วยกัน ไม่ต้องมีโปรไฟล์ แค่มีความอยากรู้อยากเห็นก็พอครับ</p>
 
-<p><a class="btn" href="mailto:rama.g7.club@gmail.com?subject=Join RAMA G7">ส่งอีเมลถึงเรา</a></p>
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdbymtuncNgKSiL3Rf2HMG5sdu5mdd2hibjqhF-H8-yMkIIiQ/viewform?embedded=true" width="100%" height="1000" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+
+<p>For any inquiries, contact us at IG, FB, or <a href="mailto:rama.g7.club@gmail.com">rama.g7.club@gmail.com</a></p>
 '''
     build_static_page("join", "Join", join_html,
                       "Join RAMA G7 Club.",
