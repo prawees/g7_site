@@ -18,7 +18,7 @@ making changes.
 THREE CONTENT STREAMS
 1. Auto-curated medical AI news, Facebook only, daily, low signal
 2. Editorial pieces, IG and FB and the website, 1 to 2 a week,
-   default author Smart
+   default author Smart 
 3. Member content like workshops and project journals, 2 to 4
    a month, on the website
 
