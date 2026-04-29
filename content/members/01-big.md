@@ -5,7 +5,7 @@ nickname: Big
 role: President
 email: porames.vat@student.mahidol.edu
 interests: Neurosurgery, Robotics
-photo: big.jpg
+photo: big.png
 ---
 
 ประธานชมรม สนใจ neurosurgery และ robotics ในการแพทย์
