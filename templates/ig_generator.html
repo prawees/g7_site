@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <title>IG Carousel Generator | RAMA G7 Admin</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    body { background: #f0f0f0; padding: 20px; color: var(--ink); }
+    .admin-controls {
+      background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: flex; gap: 20px; align-items: center;
+    }
+    select { padding: 8px 12px; font-size: 16px; border: 1px solid var(--rule); border-radius: 4px; }
+    button { 
+      padding: 8px 16px; font-size: 16px; background: var(--accent-deep); 
+      color: white; border: none; border-radius: 4px; cursor: pointer;
+    }
+    button:hover { background: var(--ink); }
+    
+    #carousel-preview {
+      display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px;
+      align-items: flex-start;
+    }
+
+    /* Base 1080x1440 slide */
+    .slide {
+      width: 1080px; height: 1440px; 
+      flex-shrink: 0; background: linear-gradient(135deg, #0d1f3c 0%, #0E8A78 55%, #14B59D 100%);
+      padding: 30px;
+      position: relative; overflow: hidden;
+      transform-origin: top left;
+      /* Scale down for preview by default so it fits on normal screens */
+      transform: scale(0.35);
+      margin-right: -702px; /* 1080 - (1080 * 0.35) = 702 */
+      margin-bottom: -936px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+    
+    /* When exporting, we'll temporarily remove scaling */
+    .exporting .slide { transform: scale(1); margin-right: 20px; margin-bottom: 0; box-shadow: none; }
+    
+    .slide-inner-box {
+      background: var(--paper);
+      border-radius: 8px;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Slide Layout */
+    .slide-inner {
+      padding: 100px 90px; height: 100%; display: flex; flex-direction: column;
+      position: relative; z-index: 2;
+    }
+    .slide-bg {
+      position: absolute; inset: 0; z-index: 1; opacity: 0.35; mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.01 0 0 0 0 0.06 0 0 0 0 0.16 0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    }
+
+    .slide-header { flex: 1; }
+    .slide-category { 
+      font-family: var(--font-ui); font-size: 32px; font-weight: 600; letter-spacing: 0.15em; 
+      text-transform: uppercase; color: var(--accent-deep); margin-bottom: 40px; 
+    }
+    .slide-title { 
+      font-family: var(--font-display); font-size: 68px; font-weight: 700; 
+      line-height: 1.15; color: var(--ink); margin-bottom: 20px; letter-spacing: -0.01em; 
+    }
+    .slide-subtitle { 
+      font-family: var(--font-thai); font-size: 44px; font-weight: 600; 
+      line-height: 1.4; color: var(--accent-deep); margin-bottom: 20px; 
+    }
+    .slide-body { 
+      font-family: var(--font-thai); font-size: 44px; line-height: 1.65; 
+      color: var(--ink); flex: 1; display: flex; flex-direction: column; justify-content: center;
+    }
+    .slide-body p, .slide-body ul, .slide-body ol, .slide-body blockquote { margin-bottom: 40px; }
+    .slide-body li { margin-bottom: 20px; }
+    .slide-body h2 { font-family: var(--font-display); font-size: 64px; font-weight: 700; margin-top: 60px; margin-bottom: 30px; letter-spacing: -0.01em; color: var(--accent-deep); }
+    .slide-body h3 { font-family: var(--font-display); font-size: 52px; font-weight: 600; margin-top: 50px; margin-bottom: 30px; letter-spacing: -0.01em; }
+    
+    .slide-footer { margin-top: auto; border-top: 3px solid var(--rule); padding-top: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
+    
+    .author-block { display: flex; align-items: center; gap: 30px; }
+    .author-photo { width: 140px; height: 140px; border-radius: 70px; overflow: hidden; background: var(--accent); }
+    .author-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .author-info { display: flex; flex-direction: column; }
+    .author-name { font-family: var(--font-thai); font-size: 42px; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+    .author-role { font-family: var(--font-ui); font-size: 28px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-deep); font-weight: 600; }
+    
+    .brand-block { text-align: right; }
+    .brand-logo { font-family: var(--font-wordmark); font-size: 56px; font-weight: 700; color: var(--ink); letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; margin-bottom: 15px;}
+    .brand-logo .accent { color: var(--accent); }
+    .brand-tag { font-family: var(--font-ui); font-size: 24px; letter-spacing: 0.1em; color: var(--muted-soft); text-transform: uppercase;}
+    .page-num { font-family: var(--font-ui); font-size: 36px; font-weight: 600; color: var(--muted-soft); }
+    
+    .references { font-size: 26px; line-height: 1.5; font-family: var(--font-thai); }
+    .references h3 { font-family: var(--font-ui); font-size: 32px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink); margin-bottom: 30px; }
+    .references li { margin-bottom: 20px; color: var(--muted); }
+
+    .speech-bubble {
+      position: relative;
+      background: var(--ink);
+      color: var(--paper);
+      border-radius: 40px;
+      padding: 70px 80px;
+      font-family: var(--font-thai);
+      font-size: 56px;
+      line-height: 1.6;
+      margin: auto 0;
+      box-shadow: 0 20px 40px rgba(3, 15, 39, 0.15);
+    }
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -45px;
+      left: 120px;
+      border-width: 50px 50px 0 0;
+      border-style: solid;
+      border-color: var(--ink) transparent transparent transparent;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="admin-controls">
+    <select id="post-select">
+      <option value="">-- Select an Article --</option>
+    </select>
+    <button id="generate-btn">Generate Slides</button>
+    <button id="download-btn" disabled>Download as Images</button>
+  </div>
+
+  <div id="carousel-preview"></div>
+
+  <script>
+    const posts = {{posts_json}};
+    const members = {{members_json}};
+
+    const select = document.getElementById('post-select');
+    const generateBtn = document.getElementById('generate-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const preview = document.getElementById('carousel-preview');
+
+    posts.forEach((post, i) => {
+      const option = document.createElement('option');
+      option.value = i;
+      option.textContent = post.title;
+      select.appendChild(option);
+    });
+
+    generateBtn.addEventListener('click', () => {
+      const idx = select.value;
+      if (idx === '') return;
+      const post = posts[idx];
+      renderPost(post);
+      downloadBtn.disabled = false;
+    });
+
+    function getMemberHtml(authorName) {
+      if (!authorName) return '';
+      const a = authorName.toLowerCase().trim();
+      const member = members.find(m => m.nickname && m.nickname.toLowerCase().trim() === a);
+      
+      let photoHtml = '';
+      let roleHtml = 'RAMA G7 Member';
+      
+      if (member) {
+        if (member.photo) {
+          photoHtml = `<div class="author-photo"><img src="/static/img/members/${member.photo}"></div>`;
+        } else {
+          const init = (member.nickname || member.name || "").substring(0,2);
+          photoHtml = `<div class="author-photo" style="display:flex;align-items:center;justify-content:center;font-size:50px;font-family:var(--font-wordmark);color:white">${init}</div>`;
+        }
+        if (member.name) {
+          roleHtml = member.name;
+        } else {
+          roleHtml = member.role || 'RAMA G7 Member';
+        }
+      }
+      
+      return `
+        <div class="author-block">
+          ${photoHtml}
+          <div class="author-info">
+            <div class="author-name">${authorName}</div>
+            <div class="author-role">${roleHtml}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function createSlide(contentHtml, pageNum, totalPages, authorHtml = '') {
+      const div = document.createElement('div');
+      div.className = 'slide';
+      
+      let footerLeft = '';
+      if (authorHtml) {
+        footerLeft = authorHtml;
+      } else {
+        footerLeft = `<div class="page-num">${pageNum} / ${totalPages}</div>`;
+      }
+
+      div.innerHTML = `
+        <div class="slide-inner-box">
+          <div class="slide-bg"></div>
+          <div class="slide-inner">
+            ${contentHtml}
+            <div class="slide-footer">
+              ${footerLeft}
+              <div class="brand-block">
+                <div class="brand-logo">RAMA <span class="accent">G7</span></div>
+                <div class="brand-tag">@ramag7.club</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      return div;
+    }
+
+    function renderPost(post) {
+      preview.innerHTML = '';
+      const slides = [];
+
+      // Parse body elements
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = post.body_html;
+      
+      const firstImg = tempDiv.querySelector('img');
+      let heroHtml = '';
+      if (firstImg) {
+        heroHtml = `<div style="text-align: center; margin-bottom: 50px;"><img src="${firstImg.getAttribute('src')}" style="max-width: 100%; max-height: 480px; border-radius: 12px; box-shadow: 0 15px 30px rgba(0,0,0,0.15);"></div>`;
+        firstImg.remove();
+        tempDiv.querySelectorAll('p').forEach(p => { if (p.innerHTML.trim() === '') p.remove(); });
+      }
+
+      const elements = Array.from(tempDiv.querySelectorAll('p, h2, h3, ul, ol, blockquote'));
+      
+      const chunks = [];
+      let currentChunk = [];
+      
+      for (let i = 0; i < elements.length; i++) {
+        const el = elements[i];
+        
+        if ((el.tagName === 'H2' || el.tagName === 'H3') && currentChunk.length > 0) {
+            chunks.push(currentChunk.join(''));
+            currentChunk = [];
+        }
+        
+        currentChunk.push(el.outerHTML);
+        
+        if (el.tagName === 'H2' || el.tagName === 'H3') {
+            continue;
+        }
+        
+        if (currentChunk.length >= 2) {
+            chunks.push(currentChunk.join(''));
+            currentChunk = [];
+        }
+      }
+      if (currentChunk.length > 0) {
+        chunks.push(currentChunk.join(''));
+      }
+      
+      let totalPages = 1 + 1 + chunks.length; // Slide 1 + Lede Slide + chunks
+      if (post.refs_block) totalPages += 1;
+      totalPages += 1; // Author slide at end
+
+      const authorHtml = getMemberHtml(post.author);
+
+      // Slide 1
+      let subtitleHtml = post.subtitle ? `<div class="slide-subtitle">${post.subtitle}</div>` : '';
+      const s1Content = `
+        <div class="slide-header">
+          <div class="slide-category">${post.category}</div>
+          ${heroHtml}
+          <div class="slide-title">${post.title}</div>
+          ${subtitleHtml}
+        </div>
+      `;
+      slides.push(createSlide(s1Content, 1, totalPages, authorHtml));
+
+      // Slide 2: Lede in speech bubble
+      const ledeContent = `
+        <div class="slide-body" style="justify-content: center; align-items: stretch; display: flex; flex-direction: column; height: 100%;">
+          <div style="flex: 1;"></div>
+          <div class="slide-category" style="text-align: center; margin-bottom: 30px;">Editor's Note</div>
+          <div class="speech-bubble">
+            ${post.lede}
+            <div style="text-align: right; font-size: 36px; margin-top: 40px; color: var(--paper); opacity: 0.7; font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.1em;">— ${post.author}</div>
+          </div>
+          <div style="flex: 1.5;"></div>
+        </div>
+      `;
+      // For Slide 2, we already have the author inline, so pass null for the footer author
+      slides.push(createSlide(ledeContent, 2, totalPages, null));
+
+      // Slides 3+
+      chunks.forEach((chunkHtml, idx) => {
+        const sContent = `<div class="slide-body">${chunkHtml}</div>`;
+        slides.push(createSlide(sContent, idx + 3, totalPages, null));
+      });
+      
+      let finalPageNum = chunks.length + 3;
+
+      // References Slide
+      if (post.refs_block) {
+        const refContent = `<div class="slide-body">${post.refs_block}</div>`;
+        slides.push(createSlide(refContent, finalPageNum, totalPages, null));
+        finalPageNum++;
+      }
+      
+      // Author Slide
+      const authorSlideContent = `
+        <div class="slide-body" style="align-items: center; text-align: center;">
+          <div class="slide-category" style="margin-bottom: 20px;">ผู้เขียน</div>
+          ${authorHtml.replace('author-photo', 'author-photo" style="width: 280px; height: 280px; border-radius: 140px; margin: 0 auto 40px;').replace('author-info', 'author-info" style="align-items: center;').replace('author-name', 'author-name" style="font-size: 64px;').replace('author-role', 'author-role" style="font-size: 36px;').replace('author-block', 'author-block" style="flex-direction: column;')}
+        </div>
+      `;
+      slides.push(createSlide(authorSlideContent, finalPageNum, totalPages, null));
+
+      slides.forEach(s => preview.appendChild(s));
+    }
+
+    downloadBtn.addEventListener('click', async () => {
+      const slides = document.querySelectorAll('.slide');
+      if (slides.length === 0) return;
+      
+      preview.classList.add('exporting');
+      downloadBtn.textContent = 'Generating...';
+      downloadBtn.disabled = true;
+
+      for (let i = 0; i < slides.length; i++) {
+        const canvas = await html2canvas(slides[i], {
+          scale: 2, // High res
+          useCORS: true,
+          backgroundColor: null
+        });
+        const link = document.createElement('a');
+        link.download = `slide_${i + 1}.jpg`;
+        link.href = canvas.toDataURL('image/jpeg', 0.9);
+        link.click();
+        
+        await new Promise(r => setTimeout(r, 500));
+      }
+
+      preview.classList.remove('exporting');
+      downloadBtn.textContent = 'Download as Images';
+      downloadBtn.disabled = false;
+    });
+
+  </script>
+</body>
+</html>

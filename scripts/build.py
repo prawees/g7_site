@@ -40,6 +40,7 @@ import sys
 import shutil
 import datetime
 import html
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -242,8 +243,12 @@ def render_inline(text):
         return f"\x01C{len(code_spans) - 1}\x01"
     text = re.sub(r"`([^`]+)`", stash_inline_code, text)
 
+    # Images ![alt](url)
+    text = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)",
+                  lambda m: f'<img src="{html.escape(m.group(2))}" alt="{html.escape(m.group(1))}">',
+                  text)
     # Links [text](url)
-    text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)",
+    text = re.sub(r"(?<!\!)\[([^\]]+)\]\(([^)]+)\)",
                   lambda m: f'<a href="{html.escape(m.group(2))}">{m.group(1)}</a>',
                   text)
     # Bold
@@ -517,6 +522,7 @@ def build_post(md_path, members=None):
     return {
         "slug": slug,
         "title": meta["title"],
+        "subtitle": meta.get("subtitle", ""),
         "lede": meta["lede"],
         "date": meta["date"],
         "date_label": format_date_label(meta["date"]),
@@ -526,6 +532,8 @@ def build_post(md_path, members=None):
         "summary": meta.get("summary", meta["lede"]),
         "description": meta.get("description", meta["lede"]),
         "url": f"/posts/{slug}.html",
+        "body_html": html_body,
+        "refs_block": refs_block,
     }
 
 
@@ -585,6 +593,21 @@ def build_static_page(slug, title, content_html, description, nav_key):
         description=description, active_nav=nav_key,
     )
     (PUBLIC / f"{slug}.html").write_text(full, encoding="utf-8")
+
+
+def build_ig_generator(posts, members):
+    template = read_template("ig_generator.html")
+    # Convert lists to JSON to inject into script
+    posts_json = json.dumps(posts, ensure_ascii=False)
+    # For members we only need basic info
+    members_min = [{"nickname": m.get("nickname"), "name": m.get("name"), "photo": m.get("photo"), "role": m.get("role")} for m in members]
+    members_json = json.dumps(members_min, ensure_ascii=False)
+    
+    page = template.replace("{{posts_json}}", posts_json).replace("{{members_json}}", members_json)
+    
+    out_dir = PUBLIC / "admin"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "ig.html").write_text(page, encoding="utf-8")
 
 
 def copy_static():
@@ -667,6 +690,9 @@ def main():
     full404 = render_layout(notfound, "Not found | RAMA G7 Club",
                              "Page not found.", active_nav="")
     (PUBLIC / "404.html").write_text(full404, encoding="utf-8")
+
+    build_ig_generator(posts, members)
+    print("  built IG generator (secret)")
 
     print(f"\nbuild ok. output is in public/")
 
