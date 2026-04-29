@@ -16,10 +16,11 @@
   --shadow-sm:   0 1px 0 rgba(3, 15, 39, 0.06);
 
   /* Type */
-  --font-display: "Trirong", Georgia, serif;
-  --font-body:    "Trirong", Georgia, serif;
-  --font-ui:      "IBM Plex Sans Thai Looped", system-ui, sans-serif;
-  --font-mono:    "IBM Plex Mono", ui-monospace, monospace;
+  --font-display:  "DM Sans", "IBM Plex Sans Thai", system-ui, sans-serif;
+  --font-body:     "DM Sans", "IBM Plex Sans Thai", system-ui, sans-serif;
+  --font-ui:       "DM Sans", "IBM Plex Sans Thai", system-ui, sans-serif;
+  --font-wordmark: "Rajdhani", "DM Sans", system-ui, sans-serif;
+  --font-mono:     "IBM Plex Mono", ui-monospace, monospace;
 
   /* Spacing scale, modular */
   --s-1: 0.25rem;
@@ -176,11 +177,12 @@ li { margin-bottom: var(--s-2); }
 }
 
 .masthead-title {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-family: var(--font-wordmark);
+  font-size: 1.6rem;
+  font-weight: 700;
   color: var(--paper);
-  letter-spacing: -0.01em;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .masthead-title .accent { color: var(--accent); }
