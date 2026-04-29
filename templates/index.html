@@ -92,3 +92,82 @@
     <div class="post-list-end"></div>
   </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const robots = document.querySelectorAll('.hero-robot');
+  if (!robots.length) return;
+
+  const speed = 1.2; 
+
+  robots.forEach(robot => {
+    robot.style.position = 'fixed';
+    robot.style.zIndex = '50';
+    
+    // Initial random position
+    let width = 80; 
+    let height = 120;
+    
+    let x = Math.random() * (window.innerWidth - width);
+    let y = Math.random() * (window.innerHeight - height);
+    
+    x = Math.max(0, Math.min(x, window.innerWidth - width));
+    y = Math.max(0, Math.min(y, window.innerHeight - height));
+
+    let angle = Math.random() * Math.PI * 2;
+    let vx = Math.cos(angle) * speed;
+    let vy = Math.sin(angle) * speed;
+
+    robot.style.left = x + 'px';
+    robot.style.top = y + 'px';
+
+    robot.dataset.vx = vx;
+    robot.dataset.vy = vy;
+    robot.dataset.x = x;
+    robot.dataset.y = y;
+  });
+
+  function animate() {
+    robots.forEach(robot => {
+      let vx = parseFloat(robot.dataset.vx);
+      let vy = parseFloat(robot.dataset.vy);
+      let x = parseFloat(robot.dataset.x);
+      let y = parseFloat(robot.dataset.y);
+
+      const rect = robot.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+
+      x += vx;
+      y += vy;
+
+      if (x <= 0) {
+        x = 0;
+        vx *= -1;
+      } else if (x + width >= window.innerWidth) {
+        x = window.innerWidth - width;
+        vx *= -1;
+      }
+
+      if (y <= 0) {
+        y = 0;
+        vy *= -1;
+      } else if (y + height >= window.innerHeight) {
+        y = window.innerHeight - height;
+        vy *= -1;
+      }
+
+      robot.style.left = x + 'px';
+      robot.style.top = y + 'px';
+      
+      robot.dataset.vx = vx;
+      robot.dataset.vy = vy;
+      robot.dataset.x = x;
+      robot.dataset.y = y;
+    });
+    requestAnimationFrame(animate);
+  }
+
+  requestAnimationFrame(animate);
+});
+</script>
