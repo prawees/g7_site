@@ -1,0 +1,79 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#F4EFE6;padding:20px 28px;font-family:'DM Sans','Sarabun',system-ui,sans-serif}
+  .section-rule{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+  .section-rule .label{font-size:0.72rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#030F27}
+  .section-rule .line{flex:1;height:1px;background:#DCD4C2}
+  .post-list{display:flex;flex-direction:column}
+  .post-card{display:grid;grid-template-columns:1fr 130px;gap:0;border-top:1px solid #DCD4C2;text-decoration:none;color:#030F27;transition:background 160ms ease;background:transparent;position:relative;overflow:hidden}
+  .post-card:last-child{border-bottom:1px solid #DCD4C2}
+  .post-card:hover{background:rgba(20,181,157,0.04)}
+  .post-card:hover .post-title{color:#0E8A78}
+  .card-content{padding:18px 16px 18px 4px;display:flex;flex-direction:column;gap:0;min-width:0;overflow:hidden}
+  .top-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+  .num{font-size:0.68rem;letter-spacing:0.1em;color:#9AA0AB;font-weight:500}
+  .dot{color:#DCD4C2;font-size:0.7rem}
+  .meta{font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:#5C6675;font-weight:500}
+  .tag{font-size:0.65rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:2px 7px;border-radius:2px}
+  .tag-radio{background:rgba(99,102,241,0.12);color:#4338ca}
+  .tag-ai{background:rgba(20,181,157,0.12);color:#0E8A78}
+  .tag-reg{background:rgba(245,158,11,0.12);color:#b45309}
+  .post-title{font-size:1.1rem;font-weight:700;line-height:1.25;margin-bottom:6px;color:#030F27;letter-spacing:-0.01em;transition:color 120ms ease}
+  .post-summary{color:#5C6675;font-size:0.85rem;line-height:1.55;font-family:'Sarabun',system-ui,sans-serif}
+  .post-author{font-size:0.68rem;color:#9AA0AB;margin-top:8px;font-weight:500;letter-spacing:0.04em}
+  .card-thumb{position:relative;overflow:hidden}
+  .card-thumb-img{width:100%;height:100%;object-fit:cover;display:block}
+  .card-thumb-grad{position:absolute;inset:0;background:linear-gradient(to right, #F4EFE6 0%, transparent 45%)}
+  /* Placeholder gradient thumbs */
+  .thumb-xray{background:linear-gradient(135deg,#1a1a2e 0%,#3a3a5c 40%,#6a6a9a 100%)}
+  .thumb-ai{background:linear-gradient(135deg,#0d3b2e 0%,#0E8A78 60%,#14B59D 100%)}
+</style></head><body>
+<div class="section-rule"><span class="label">Recent</span><span class="line"></span></div>
+<div class="post-list">
+
+  <a class="post-card" href="#">
+    <div class="card-content">
+      <div class="top-row">
+        <span class="num">01</span><span class="dot">·</span>
+        <span class="meta">29 Apr 2026</span><span class="dot">·</span>
+        <span class="meta">บันทึกงานวิจัย</span>
+        <span class="tag tag-radio">รังสีวิทยา</span>
+        <span class="tag tag-ai">AI</span>
+      </div>
+      <div class="post-title">GPT-4 อ่านฟิล์มทรวงอก คำตอบที่ตรงไปตรงมาคือ ขึ้นอยู่กับว่าเทียบกับใคร</div>
+      <div class="post-summary">โมเดล multimodal ทั่วไปสามารถบอกสิ่งที่เห็นในฟิล์มได้ แต่โมเดล CXR เฉพาะทางยังทำได้ดีกว่าในจุดที่สำคัญทางคลินิก</div>
+      <div class="post-author">Smart, RAMA G7</div>
+    </div>
+    <div class="card-thumb">
+      <div class="card-thumb-img thumb-xray" style="height:100%;min-height:120px;display:flex;align-items:center;justify-content:center">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.25"><rect x="8" y="4" width="28" height="36" rx="2" stroke="white" stroke-width="1.5"/><circle cx="22" cy="22" r="9" stroke="white" stroke-width="1.5"/><line x1="22" y1="4" x2="22" y2="40" stroke="white" stroke-width="0.75" stroke-dasharray="2 2"/></svg>
+      </div>
+      <div class="card-thumb-grad"></div>
+    </div>
+  </a>
+
+  <a class="post-card" href="#">
+    <div class="card-content">
+      <div class="top-row">
+        <span class="num">02</span><span class="dot">·</span>
+        <span class="meta">26 Apr 2026</span><span class="dot">·</span>
+        <span class="meta">บทวิจารณ์</span>
+        <span class="tag tag-reg">กฎหมาย</span>
+        <span class="tag tag-ai">AI</span>
+      </div>
+      <div class="post-title">"FDA อนุมัติ" ไม่ได้แปลว่าอะไรที่คนส่วนใหญ่คิด</div>
+      <div class="post-summary">เกือบทุก AI device ที่ขึ้นข่าวกำกับดูแล ผ่านช่องทางที่ไม่ต้องการหลักฐานประสิทธิภาพทางคลินิก</div>
+      <div class="post-author">Smart, RAMA G7</div>
+    </div>
+    <div class="card-thumb">
+      <div class="card-thumb-img thumb-ai" style="height:100%;min-height:120px;display:flex;align-items:center;justify-content:center">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.3"><circle cx="22" cy="22" r="10" stroke="white" stroke-width="1.5"/><circle cx="22" cy="22" r="3" fill="white" fill-opacity="0.5"/><line x1="22" y1="4" x2="22" y2="12" stroke="white" stroke-width="1.5"/><line x1="22" y1="32" x2="22" y2="40" stroke="white" stroke-width="1.5"/><line x1="4" y1="22" x2="12" y2="22" stroke="white" stroke-width="1.5"/><line x1="32" y1="22" x2="40" y2="22" stroke="white" stroke-width="1.5"/></svg>
+      </div>
+      <div class="card-thumb-grad"></div>
+    </div>
+  </a>
+
+</div>
+</body></html>

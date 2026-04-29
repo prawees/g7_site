@@ -1,0 +1,201 @@
+/* RAMA G7 Design System — Color & Typography Tokens
+   g7.prawees.com · Medical Innovation Club, Ramathibodi
+   -------------------------------------------------------- */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Rajdhani:wght@600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+
+  /* ─── BASE COLORS ─────────────────────────────────────── */
+
+  --color-ink:          #030F27;   /* Deep navy — primary dark */
+  --color-paper:        #F4EFE6;   /* Warm cream — primary light */
+  --color-paper-warm:   #EDE6D6;   /* Deeper cream — subtle surface */
+  --color-white:        #FFFFFF;
+  --color-accent:       #14B59D;   /* Teal — brand/logo color */
+  --color-accent-deep:  #0E8A78;   /* Teal — legible on paper */
+  --color-rule:         #DCD4C2;   /* Warm grey — borders/rules */
+  --color-muted:        #5C6675;   /* Secondary text */
+  --color-muted-soft:   #9AA0AB;   /* Tertiary / placeholder */
+
+  /* ─── SEMANTIC COLOR ROLES ───────────────────────────── */
+
+  --fg-primary:         var(--color-ink);
+  --fg-secondary:       var(--color-muted);
+  --fg-tertiary:        var(--color-muted-soft);
+  --fg-inverse:         var(--color-paper);
+  --fg-link:            var(--color-accent-deep);
+  --fg-link-hover:      var(--color-ink);
+
+  --bg-page:            var(--color-paper);
+  --bg-surface:         var(--color-paper-warm);
+  --bg-inverse:         var(--color-ink);
+  --bg-hover-tint:      rgba(20, 181, 157, 0.04);
+
+  --border-rule:        var(--color-rule);
+  --border-accent:      var(--color-accent);
+  --border-heavy:       var(--color-ink);
+
+  /* ─── SHADOWS ────────────────────────────────────────── */
+
+  --shadow-sm:          0 1px 0 rgba(3, 15, 39, 0.06);
+
+  /* ─── FONTS ──────────────────────────────────────────── */
+
+  /* Humanized modern stack: DM Sans (display/body) + IBM Plex Sans Thai (loopless Thai) + Rajdhani (wordmark) */
+  --font-display:   "DM Sans", "IBM Plex Sans Thai", system-ui, sans-serif;
+  --font-body:      "DM Sans", "IBM Plex Sans Thai", system-ui, sans-serif;
+  --font-ui:        "DM Sans", "IBM Plex Sans Thai", system-ui, sans-serif;
+  --font-wordmark:  "Space Grotesk", "DM Sans", system-ui, sans-serif;
+  --font-mono:      "IBM Plex Mono", ui-monospace, monospace;
+
+  /* ─── TYPE SCALE ─────────────────────────────────────── */
+
+  --text-xs:    0.75rem;    /* 12px — labels, footnotes */
+  --text-sm:    0.85rem;    /* ~14px — smallcaps, meta */
+  --text-base:  1rem;       /* 16px */
+  --text-body:  1.075rem;   /* article body */
+  --text-lede:  1.2rem;     /* article lede / intro */
+  --text-h3:    1.25rem;
+  --text-h2:    1.6rem;
+  --text-h1:    clamp(2rem, 4vw, 3rem);
+  --text-hero:  clamp(2.5rem, 6vw, 4rem);
+
+  /* ─── LINE HEIGHTS ───────────────────────────────────── */
+
+  --leading-tight:   1.15;
+  --leading-heading: 1.2;
+  --leading-body:    1.7;
+  --leading-lede:    1.55;
+  --leading-ui:      1.4;
+
+  /* ─── LETTER SPACING ─────────────────────────────────── */
+
+  --tracking-tight:   -0.01em;
+  --tracking-normal:   0;
+  --tracking-wide:     0.06em;
+  --tracking-wider:    0.12em;
+  --tracking-widest:   0.18em;
+
+  /* ─── SPACING SCALE (modular) ────────────────────────── */
+
+  --s-1:  0.25rem;   /*  4px */
+  --s-2:  0.5rem;    /*  8px */
+  --s-3:  0.75rem;   /* 12px */
+  --s-4:  1rem;      /* 16px */
+  --s-5:  1.5rem;    /* 24px */
+  --s-6:  2rem;      /* 32px */
+  --s-7:  3rem;      /* 48px */
+  --s-8:  4rem;      /* 64px */
+  --s-9:  6rem;      /* 96px */
+
+  /* ─── LAYOUT ─────────────────────────────────────────── */
+
+  --content-max:  68ch;
+  --page-max:     1180px;
+
+  /* ─── RADIUS ─────────────────────────────────────────── */
+
+  --radius-xs:    2px;    /* inline code only */
+  --radius-none:  0;      /* cards, panels — sharp editorial */
+
+  /* ─── ANIMATION ──────────────────────────────────────── */
+
+  --ease-editorial:  cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration-fast:   120ms;
+  --duration-base:   160ms;
+  --duration-slow:   480ms;
+}
+
+/* ─── SEMANTIC ELEMENT DEFAULTS ──────────────────────────── */
+
+body {
+  font-family:             var(--font-body);
+  font-size:               18px;
+  line-height:             var(--leading-body);
+  color:                   var(--fg-primary);
+  background-color:        var(--bg-page);
+  font-feature-settings:   "kern", "liga", "onum";
+  -webkit-font-smoothing:  antialiased;
+  text-rendering:          optimizeLegibility;
+}
+
+h1 {
+  font-family:    var(--font-display);
+  font-size:      var(--text-h1);
+  font-weight:    600;
+  line-height:    var(--leading-heading);
+  letter-spacing: var(--tracking-tight);
+}
+
+h2 {
+  font-family:    var(--font-display);
+  font-size:      var(--text-h2);
+  font-weight:    600;
+  line-height:    var(--leading-heading);
+  letter-spacing: var(--tracking-tight);
+}
+
+h3 {
+  font-family:    var(--font-display);
+  font-size:      var(--text-h3);
+  font-weight:    600;
+  line-height:    var(--leading-heading);
+}
+
+p {
+  margin-bottom: var(--s-4);
+}
+
+a {
+  color:           var(--fg-link);
+  text-decoration: none;
+  border-bottom:   1px solid rgba(14, 138, 120, 0.35);
+  transition:      border-color var(--duration-fast) ease,
+                   color var(--duration-fast) ease;
+}
+
+a:hover {
+  color:        var(--fg-link-hover);
+  border-color: var(--color-ink);
+}
+
+.smallcaps {
+  font-family:     var(--font-ui);
+  font-size:       var(--text-sm);
+  font-weight:     500;
+  letter-spacing:  var(--tracking-wider);
+  text-transform:  uppercase;
+  color:           var(--fg-secondary);
+}
+
+code {
+  font-family:   var(--font-mono);
+  font-size:     0.92em;
+  background:    var(--bg-surface);
+  padding:       0.1em 0.3em;
+  border-radius: var(--radius-xs);
+}
+
+pre {
+  font-family: var(--font-mono);
+  font-size:   0.85em;
+  background:  var(--bg-inverse);
+  color:       var(--fg-inverse);
+  padding:     var(--s-4);
+  overflow-x:  auto;
+}
+
+blockquote {
+  margin:       var(--s-6) var(--s-5);
+  padding-left: var(--s-4);
+  border-left:  2px solid var(--border-accent);
+  font-style:   italic;
+}
+
+hr {
+  border:     0;
+  height:     1px;
+  background: var(--border-rule);
+  margin:     var(--s-7) 0;
+}

@@ -1,0 +1,28 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#F4EFE6;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:20px}
+  .rows{display:flex;flex-direction:column;gap:6px}
+  .row{display:grid;grid-template-columns:160px 1fr 1fr;gap:8px;align-items:center}
+  .role{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#5C6675}
+  .chip{height:28px;border-radius:2px;border:1px solid rgba(3,15,39,0.1);display:flex;align-items:center;padding:0 10px;font-size:11px;font-weight:500;gap:8px}
+  .dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;border:1px solid rgba(3,15,39,0.1)}
+  .token{font-size:10px;color:#9AA0AB;font-family:monospace}
+  .section-label{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:#9AA0AB;padding:8px 0 4px;border-top:1px solid #DCD4C2;margin-top:4px}
+</style></head><body>
+<div class="rows">
+  <div class="section-label">Foreground</div>
+  <div class="row"><span class="role">fg-primary</span><div class="chip"><div class="dot" style="background:#030F27"></div><span style="color:#030F27">Primary text</span></div><span class="token">--fg-primary</span></div>
+  <div class="row"><span class="role">fg-secondary</span><div class="chip"><div class="dot" style="background:#5C6675"></div><span style="color:#5C6675">Secondary / meta</span></div><span class="token">--fg-secondary</span></div>
+  <div class="row"><span class="role">fg-tertiary</span><div class="chip"><div class="dot" style="background:#9AA0AB"></div><span style="color:#9AA0AB">Placeholder / footer</span></div><span class="token">--fg-tertiary</span></div>
+  <div class="row"><span class="role">fg-link</span><div class="chip"><div class="dot" style="background:#0E8A78"></div><span style="color:#0E8A78;border-bottom:1px solid rgba(14,138,120,0.35)">Article link</span></div><span class="token">--fg-link</span></div>
+  <div class="section-label">Background</div>
+  <div class="row"><span class="role">bg-page</span><div class="chip" style="background:#F4EFE6"><div class="dot" style="background:#F4EFE6;border:1px solid #DCD4C2"></div>Page cream</div><span class="token">--bg-page</span></div>
+  <div class="row"><span class="role">bg-surface</span><div class="chip" style="background:#EDE6D6"><div class="dot" style="background:#EDE6D6;border:1px solid #DCD4C2"></div>Code / surface</div><span class="token">--bg-surface</span></div>
+  <div class="row"><span class="role">bg-inverse</span><div class="chip" style="background:#030F27;color:#F4EFE6"><div class="dot" style="background:#030F27;border:1px solid rgba(244,239,230,0.2)"></div>Masthead / footer</div><span class="token">--bg-inverse</span></div>
+  <div class="section-label">Border</div>
+  <div class="row"><span class="role">border-rule</span><div class="chip" style="border-color:#DCD4C2"><div class="dot" style="background:#DCD4C2"></div>Card dividers</div><span class="token">--border-rule</span></div>
+  <div class="row"><span class="role">border-accent</span><div class="chip" style="border-color:#14B59D"><div class="dot" style="background:#14B59D"></div>Blockquote, active</div><span class="token">--border-accent</span></div>
+</div>
+</body></html>

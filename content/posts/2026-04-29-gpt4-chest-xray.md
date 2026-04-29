@@ -1,33 +1,33 @@
 ---
-title: GPT-4 reads chest X-rays. The honest answer is, it depends who you compare it to.
-lede: General-purpose multimodal models can describe a CXR, but specialized chest X-ray models still outperform them at the tasks that matter clinically. Here is why that gap matters more than the headline.
+title: GPT-4 อ่านฟิล์มเอกซเรย์ปอดได้ คำตอบที่ตรงไปตรงมาคือ มันขึ้นอยู่กับว่าคุณเอาไปเทียบกับใคร
+lede: โมเดลทั่วไปแบบ multimodal สามารถอธิบายฟิล์มเอกซเรย์ปอดได้ก็จริง แต่โมเดลที่สร้างมาเพื่ออ่านฟิล์มปอดโดยเฉพาะก็ยังทำงานสำคัญๆ ทางคลินิกได้ดีกว่ามาก นี่คือเหตุผลว่าทำไมช่องว่างตรงนี้ถึงสำคัญกว่าพาดหัวข่าว
 date: 2026-04-29
 author: Smart
 category: Paper Notes
-description: A short editorial on what GPT-4V actually does and does not do on chest X-ray interpretation, with Thai medical context.
+description: บทความสั้นๆ เกี่ยวกับสิ่งที่ GPT-4V ทำได้และทำไม่ได้ในการอ่านฟิล์มเอกซเรย์ปอด พร้อมบริบททางการแพทย์ของไทย
 ---
 
-Every few weeks, a new paper or demo claims that GPT-4 can read X-rays. The headline is usually some version of "AI passes radiology test." The reality is more interesting and less impressive than the headline.
+แทบจะทุกๆ ไม่กี่สัปดาห์ มักจะมีงานวิจัยหรือเดโม่ใหม่ออกมาเคลมว่า GPT-4 สามารถอ่านฟิล์มเอกซเรย์ได้แล้ว พาดหัวข่าวก็มักจะมาแนวๆ ว่า "AI สอบผ่านรังสีวิทยาแล้ว" แต่ในความเป็นจริงมันมีความน่าสนใจอยู่ และก็ไม่ได้ดูว้าวขนาดที่พาดหัวข่าวบอกไว้
 
-A growing body of work has tested multimodal large language models on chest X-ray interpretation against radiologists and against specialized CXR models. The pattern is consistent. GPT-4V can produce coherent prose about a CXR. It identifies obvious findings like cardiomegaly or large pleural effusions at moderate accuracy. It performs well below specialized models such as CheXpert or CheXzero, and well below board-certified radiologists, on the findings that actually drive clinical decisions [1,2].
+มีงานวิจัยจำนวนมากขึ้นเรื่อยๆ ที่ทดสอบโมเดลภาษาขนาดใหญ่แบบ multimodal ในการอ่านฟิล์มเอกซเรย์ปอด (CXR) โดยนำไปเทียบกับรังสีแพทย์และโมเดล CXR เฉพาะทาง ผลลัพธ์ที่ได้ออกมาไปในทิศทางเดียวกันหมด GPT-4V สามารถเขียนอธิบายฟิล์ม CXR ออกมาเป็นข้อความที่อ่านรู้เรื่อง มันสามารถระบุความผิดปกติที่เห็นได้ชัดๆ อย่างภาวะหัวใจโตหรือน้ำในช่องเยื่อหุ้มปอดปริมาณมากได้แม่นยำในระดับปานกลาง แต่มันก็ยังทำผลงานได้ต่ำกว่าโมเดลเฉพาะทางอย่าง CheXpert หรือ CheXzero มาก และยังสู้รังสีแพทย์ที่ได้บอร์ดไม่ได้เลยในแง่ของการค้นหาความผิดปกติที่มีผลต่อการตัดสินใจรักษาจริงๆ [1,2]
 
-The reason is not mysterious. Specialized CXR models are trained on hundreds of thousands of labeled chest films from MIMIC-CXR, CheXpert, and ChestX-ray14 [3]. GPT-4V was trained on a much larger but less curated mix of internet imagery. The general model is a generalist. It is being asked to compete with specialists on the specialists' home turf.
+เหตุผลก็ไม่ได้ซับซ้อนอะไร โมเดล CXR เฉพาะทางถูกเทรนด้วยภาพเอกซเรย์ปอดที่มีการทำป้ายกำกับไว้เป็นแสนๆ ภาพจากฐานข้อมูลอย่าง MIMIC-CXR CheXpert และ ChestX-ray14 [3] ในขณะที่ GPT-4V ถูกเทรนด้วยภาพจากอินเทอร์เน็ตที่มีจำนวนเยอะกว่ามากแต่ไม่ได้มีการคัดกรองอย่างละเอียด โมเดลทั่วไปก็คือผู้เชี่ยวชาญแบบกว้างๆ ซึ่งตอนนี้มันกำลังถูกขอให้ไปแข่งกับผู้เชี่ยวชาญเฉพาะทางในถิ่นของพวกเขาเอง
 
-## What this does not prove
+## สิ่งที่เรื่องนี้ไม่ได้พิสูจน์
 
-A single benchmark study is not the field. The numbers vary substantially by dataset, prompt, and reference standard. Most published evaluations use small test sets, sometimes a hundred images or fewer, drawn from a single source. None have been validated on Thai patient populations, and most do not separate findings by clinical urgency. A model that calls every borderline cardiomegaly "normal" can post a respectable accuracy number while missing the patient who needs the next echocardiogram.
+งานวิจัยที่วัดผลการทดสอบแค่ชิ้นเดียวไม่ได้เป็นตัวแทนของวงการทั้งหมด ตัวเลขต่างๆ มีความแตกต่างกันอย่างมากตามชุดข้อมูล พรอมต์ และมาตรฐานอ้างอิงที่ใช้ งานประเมินผลส่วนใหญ่ที่ตีพิมพ์ออกมามักจะใช้ชุดทดสอบขนาดเล็ก บางครั้งก็ใช้แค่ร้อยภาพหรือน้อยกว่านั้นแถมดึงมาจากแหล่งเดียว ที่สำคัญคือยังไม่มีงานไหนที่ถูกนำมาทดสอบความถูกต้องกับกลุ่มผู้ป่วยคนไทยเลย และส่วนใหญ่ก็ไม่ได้แยกความผิดปกติตามความเร่งด่วนทางคลินิก โมเดลที่บอกว่าภาวะหัวใจโตแบบก้ำกึ่งทุกเคสเป็น "ปกติ" อาจจะทำตัวเลขความแม่นยำออกมาดูดีได้ แต่กลับพลาดผู้ป่วยที่จำเป็นต้องได้รับการตรวจเอคโค่หัวใจเป็นคิวต่อไป
 
-There is also a quieter issue with how these comparisons get framed. A study showing GPT-4V at 65 percent accuracy is not interesting unless we know what the radiologist resident scored, what the attending scored, and what the dedicated CXR model scored on the same set. Headlines drop those numbers. The paper rarely does.
+นอกจากนี้ยังมีปัญหาที่ไม่ค่อยมีใครพูดถึงเกี่ยวกับวิธีการตั้งกรอบเปรียบเทียบในงานเหล่านี้ งานวิจัยที่โชว์ว่า GPT-4V มีความแม่นยำ 65 เปอร์เซ็นต์นั้นไม่ค่อยน่าสนใจเท่าไหร่ ถ้าเราไม่รู้ว่าแพทย์ประจำบ้านรังสีวิทยาทำคะแนนได้เท่าไหร่ อาจารย์แพทย์ทำได้เท่าไหร่ และโมเดล CXR เฉพาะทางทำคะแนนได้เท่าไหร่ในชุดทดสอบเดียวกัน พวกพาดหัวข่าวมักจะตัดตัวเลขเหล่านี้ทิ้งไป แต่งานวิจัยจริงๆ แทบจะไม่เคยทิ้งตัวเลขพวกนี้เลย
 
-## So what for Thai medicine
+## แล้วมันแปลว่าอะไรสำหรับการแพทย์ไทย
 
-Two practical takeaways.
+มีข้อคิดที่นำไปใช้ได้จริงอยู่สองข้อ
 
-First, when someone demonstrates GPT-4 reading an X-ray at a conference or in a sales pitch, the question to ask is not "did it get this case right." It is "what is the baseline you compared it to, and what was the comparator's score." If they cannot answer, the demo is theatre.
+ข้อแรก เวลาที่มีคนมาสาธิตให้ดูว่า GPT-4 อ่านฟิล์มเอกซเรย์ได้ในงานคอนเฟอเรนซ์หรือในงานขายของ คำถามที่คุณควรจะถามไม่ใช่ว่ามันอ่านเคสนี้ถูกไหม แต่ต้องถามว่าเกณฑ์มาตรฐานที่คุณเอาไปเทียบคืออะไร และตัวที่เอามาเทียบด้วยทำคะแนนได้เท่าไหร่ ถ้าพวกเขาตอบไม่ได้ การสาธิตนั้นก็เป็นแค่การแสดงปาหี่
 
-Second, this gap is closing, but slowly, and probably not first in Thai-language clinical contexts. Specialized models for specific specialties and specific populations remain the right tool for clinical deployment for the foreseeable future. The role of general models is more likely to be a workflow layer on top of specialized models, not a replacement for them.
+ข้อสอง ช่องว่างตรงนี้กำลังแคบลงก็จริง แต่ก็ค่อยเป็นค่อยไป และคงจะไม่ได้เกิดขึ้นกับบริบททางคลินิกที่ใช้ภาษาไทยเป็นที่แรกแน่ๆ โมเดลเฉพาะทางสำหรับสาขาเฉพาะและกลุ่มประชากรเฉพาะก็ยังคงเป็นเครื่องมือที่เหมาะสมที่สุดในการนำมาใช้งานจริงทางคลินิกในอนาคตอันใกล้นี้ บทบาทของโมเดลทั่วไปน่าจะเป็นแค่ชั้นของการจัดการเวิร์กโฟลว์ที่ครอบทับโมเดลเฉพาะทางอีกที ไม่ใช่เครื่องมือที่จะเอามาแทนที่กัน
 
-If you want to read further, the references below are a good starting point. Reference 2 in particular has the most careful comparator design we have seen.
+ถ้าใครอยากอ่านเพิ่มเติม เอกสารอ้างอิงด้านล่างถือเป็นจุดเริ่มต้นที่ดี โดยเฉพาะเอกสารอ้างอิงที่ 2 ซึ่งมีการออกแบบตัวเปรียบเทียบที่รัดกุมที่สุดเท่าที่เราเคยเห็นมาครับ
 
 ## References
 

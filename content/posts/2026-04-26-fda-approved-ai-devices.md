@@ -1,39 +1,39 @@
 ---
-title: "FDA-approved AI device" does not mean what most people think it means.
-lede: Almost every AI medical device that gets a regulatory headline went through a pathway that does not require evidence of clinical benefit. Here is what to actually look for.
+title: คำว่า "AI ที่ผ่านการรับรองจาก FDA" ไม่ได้แปลว่าอย่างที่หลายคนเข้าใจ
+lede: อุปกรณ์การแพทย์ AI เกือบทุกตัวที่เป็นข่าวว่าผ่านการรับรอง มักจะผ่านช่องทางที่ไม่ได้บังคับว่าต้องมีหลักฐานยืนยันประโยชน์ทางคลินิก นี่คือสิ่งที่เราควรจะมองหาจริงๆ
 date: 2026-04-26
 author: Smart
 category: Commentary
-description: A short note on the gap between FDA clearance and clinical evidence for AI medical devices, written for Thai medical students.
+description: บทความสั้นๆ อธิบายช่องว่างระหว่างการรับรองของ FDA กับหลักฐานทางคลินิกสำหรับอุปกรณ์การแพทย์ AI เขียนมาเพื่อนักศึกษาแพทย์ไทย
 ---
 
-A typical headline reads "FDA approves new AI tool for X." A typical reader assumes that means the tool has been shown to work, in patients, with measurable benefit. Almost none of those assumptions are correct.
+พาดหัวข่าวที่เราเห็นกันบ่อยๆ มักจะเขียนว่า "FDA อนุมัติเครื่องมือ AI ตัวใหม่สำหรับทำ X" คนอ่านทั่วไปก็มักจะทึกทักเอาเองว่าเครื่องมือตัวนี้ได้รับการพิสูจน์แล้วว่าใช้งานได้จริงกับผู้ป่วยและมีประโยชน์ที่วัดผลได้ แต่แทบจะไม่มีข้อสันนิษฐานไหนเลยที่เป็นความจริง
 
-The FDA has three main pathways for medical devices. They are 510(k), De Novo, and Premarket Approval, often called PMA. The vast majority of AI and machine learning enabled devices on the FDA's running list have entered the market through 510(k) [1].
+FDA มีช่องทางหลักๆ 3 ทางสำหรับประเมินอุปกรณ์การแพทย์ ได้แก่ 510(k) De Novo และ Premarket Approval หรือที่มักจะเรียกกันว่า PMA อุปกรณ์ที่ใช้ AI และ machine learning ส่วนใหญ่ที่อยู่ในรายชื่อของ FDA นั้นเข้าสู่ตลาดผ่านช่องทาง 510(k) [1]
 
-A 510(k) clearance is, in plain terms, a finding that the new device is "substantially equivalent" to a device already on the market. It is not a finding that the device improves patient outcomes. It is not a finding that the device underwent a randomized controlled trial. In many cases it is not even a finding that the device was tested prospectively in patients at all. It is a paperwork comparison [2].
+พูดง่ายๆ ก็คือการผ่านการประเมินแบบ 510(k) เป็นแค่การบอกว่าอุปกรณ์ตัวใหม่นี้ "มีความเทียบเท่าอย่างมีนัยสำคัญ" กับอุปกรณ์ที่มีขายอยู่ในตลาดอยู่แล้ว มันไม่ได้บอกว่าอุปกรณ์ตัวนี้ช่วยให้ผลการรักษาของผู้ป่วยดีขึ้น ไม่ได้บอกว่ามันผ่านการทดสอบแบบ randomized controlled trial และในหลายๆ กรณี มันไม่ได้บอกด้วยซ้ำว่าอุปกรณ์ตัวนี้เคยถูกนำไปทดสอบแบบเก็บข้อมูลไปข้างหน้า (prospective) กับผู้ป่วยจริงๆ เลยหรือเปล่า มันเป็นแค่การเปรียบเทียบเอกสารเท่านั้น [2]
 
-PMA is the rigorous pathway. It typically requires clinical evidence and is reserved for the highest risk devices. Almost no AI medical devices go through PMA. De Novo sits between the two and is used when there is no clear predicate device.
+PMA คือช่องทางที่เข้มงวดที่สุด ปกติแล้วจะต้องใช้หลักฐานทางคลินิกและสงวนไว้สำหรับอุปกรณ์ที่มีความเสี่ยงสูงที่สุดเท่านั้น แทบจะไม่มีอุปกรณ์การแพทย์ AI ตัวไหนเลยที่ผ่านช่องทาง PMA ส่วน De Novo จะอยู่ตรงกลางระหว่างสองแบบแรก และจะใช้ในกรณีที่ยังไม่มีอุปกรณ์ต้นแบบที่ชัดเจนให้เอามาเทียบ
 
-## Why this matters for the way we read news
+## ทำไมเรื่องนี้ถึงสำคัญกับวิธีที่เราเสพข่าว
 
-Two consequences follow.
+เรื่องนี้มีผลตามมาสองอย่าง
 
-First, when a new AI device gets a regulatory headline, the realistic interpretation is "this device has been judged safe enough and similar enough to existing devices to enter the market." That is genuinely useful information. It is not a claim of clinical benefit. The device may improve outcomes. It may not. The clearance does not tell us either way.
+อย่างแรก เวลาที่มีข่าวว่าอุปกรณ์ AI ตัวใหม่ผ่านการรับรอง การตีความตามความเป็นจริงก็คือ "อุปกรณ์ตัวนี้ถูกตัดสินว่าปลอดภัยพอและเหมือนกับอุปกรณ์ที่มีอยู่แล้วมากพอที่จะวางขายได้" ซึ่งนี่ก็เป็นข้อมูลที่มีประโยชน์จริงๆ แต่มันไม่ใช่การเคลมถึงประโยชน์ทางคลินิก อุปกรณ์ตัวนี้อาจจะทำให้ผลการรักษาดีขึ้น หรืออาจจะไม่ก็ได้ การผ่านการรับรองไม่ได้บอกเราในเรื่องนี้เลย
 
-Second, the gap between regulatory clearance and clinical evidence is wider for AI than for most device categories, because AI behavior depends on the training data, the deployment population, and the prompt or input format in ways that paper-based equivalence comparisons do not capture well [3]. A model cleared on US data may behave very differently on Thai patients without that ever being tested.
+อย่างที่สอง ช่องว่างระหว่างการผ่านการรับรองจากหน่วยงานกำกับดูแลกับหลักฐานทางคลินิกของ AI นั้นกว้างกว่าอุปกรณ์ประเภทอื่นๆ มาก เพราะพฤติกรรมของ AI ขึ้นอยู่กับข้อมูลที่ใช้เทรน กลุ่มประชากรที่นำไปใช้ และรูปแบบของพรอมต์หรือข้อมูลที่ป้อนเข้าไป ซึ่งการเปรียบเทียบความเทียบเท่าบนหน้ากระดาษไม่สามารถครอบคลุมเรื่องพวกนี้ได้ดีนัก [3] โมเดลที่ผ่านการประเมินด้วยข้อมูลจากอเมริกาอาจจะทำงานต่างออกไปอย่างสิ้นเชิงเมื่อนำมาใช้กับผู้ป่วยคนไทยโดยที่ยังไม่ได้มีการทดสอบเลยก็ได้
 
-## What to actually look for
+## สิ่งที่เราควรจะมองหาจริงๆ
 
-When you read a news item about an "FDA-approved" AI device, two questions are worth asking before forming an opinion.
+เวลาที่คุณอ่านข่าวเกี่ยวกับอุปกรณ์ AI ที่ "ผ่านการรับรองจาก FDA" มีคำถามสองข้อที่น่าควรถามก่อนที่จะตัดสินใจเชื่อ
 
-What pathway did the device clear under. If it is 510(k), the regulatory bar is roughly "similar to existing devices," not "shown to help patients."
+อุปกรณ์ตัวนี้ผ่านการรับรองมาด้วยช่องทางไหน ถ้าเป็น 510(k) มาตรฐานการรับรองก็จะประมาณว่า "คล้ายกับอุปกรณ์ที่มีอยู่แล้ว" ไม่ใช่ "พิสูจน์แล้วว่าช่วยผู้ป่วยได้"
 
-What prospective clinical outcome data exists, separate from the regulatory submission. If the answer is none, the device's real-world performance is genuinely unknown, regardless of the headline.
+มีข้อมูลผลลัพธ์ทางคลินิกแบบเก็บข้อมูลไปข้างหน้าที่แยกออกมาจากการยื่นขอเอกสารรับรองบ้างไหม ถ้าคำตอบคือไม่มี ประสิทธิภาพการใช้งานจริงของอุปกรณ์ตัวนี้ก็คือยังไม่มีใครรู้ ไม่ว่าพาดหัวข่าวจะเขียนว่ายังไงก็ตาม
 
-## A note on Thai context
+## ข้อสังเกตสำหรับบริบทของไทย
 
-Thailand's medical device regulator, the Thai FDA under the Ministry of Public Health, uses different pathways and is still developing its specific framework for AI-enabled devices. The principle generalizes. Regulatory clearance in any jurisdiction is a necessary step, not a sufficient one. Clinical evidence is a separate thing, and the burden of asking for it falls on us.
+หน่วยงานกำกับดูแลอุปกรณ์การแพทย์ของไทย หรือ อย. ภายใต้กระทรวงสาธารณสุข มีการใช้ช่องทางที่ต่างออกไปและกำลังอยู่ระหว่างการพัฒนาโครงสร้างเฉพาะสำหรับอุปกรณ์ที่ใช้ AI แต่หลักการโดยรวมแล้วก็ยังนำมาใช้ด้วยกันได้ การผ่านการรับรองจากหน่วยงานกำกับดูแลในประเทศไหนก็ตามเป็นแค่ขั้นตอนที่จำเป็น แต่ไม่ใช่เครื่องการันตีทั้งหมด หลักฐานทางคลินิกเป็นอีกเรื่องหนึ่ง และภาระในการตั้งคำถามหาหลักฐานเหล่านั้นก็ตกอยู่ที่พวกเราเอง ซึ่งเรื่องนี้เกี่ยวพันกับเราโดยตรงเพราะเรามักจะรับเทคโนโลยีและเสพข่าวการแพทย์จากฝั่งอเมริกาอยู่เสมอ
 
 ## References
 

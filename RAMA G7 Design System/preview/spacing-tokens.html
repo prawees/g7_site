@@ -1,0 +1,24 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#F4EFE6;padding:20px 24px;font-family:'IBM Plex Sans',system-ui,sans-serif}
+  .rows{display:flex;flex-direction:column;gap:6px}
+  .row{display:flex;align-items:center;gap:12px;height:24px}
+  .bar{background:#14B59D;height:14px;border-radius:1px;flex-shrink:0}
+  .token{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#030F27;width:42px}
+  .val{font-size:10px;color:#9AA0AB;width:40px}
+  .px{font-size:10px;color:#5C6675}
+</style></head><body>
+<div class="rows">
+  <div class="row"><span class="token">--s-1</span><div class="bar" style="width:4px"></div><span class="val">0.25rem</span><span class="px">4px — micro gap</span></div>
+  <div class="row"><span class="token">--s-2</span><div class="bar" style="width:8px"></div><span class="val">0.5rem</span><span class="px">8px — tight spacing</span></div>
+  <div class="row"><span class="token">--s-3</span><div class="bar" style="width:12px"></div><span class="val">0.75rem</span><span class="px">12px — small gap</span></div>
+  <div class="row"><span class="token">--s-4</span><div class="bar" style="width:16px"></div><span class="val">1rem</span><span class="px">16px — base unit</span></div>
+  <div class="row"><span class="token">--s-5</span><div class="bar" style="width:24px"></div><span class="val">1.5rem</span><span class="px">24px — component padding</span></div>
+  <div class="row"><span class="token">--s-6</span><div class="bar" style="width:32px"></div><span class="val">2rem</span><span class="px">32px — section gap</span></div>
+  <div class="row"><span class="token">--s-7</span><div class="bar" style="width:48px"></div><span class="val">3rem</span><span class="px">48px — major section</span></div>
+  <div class="row"><span class="token">--s-8</span><div class="bar" style="width:64px"></div><span class="val">4rem</span><span class="px">64px — page top</span></div>
+  <div class="row"><span class="token">--s-9</span><div class="bar" style="width:96px"></div><span class="val">6rem</span><span class="px">96px — page bottom</span></div>
+</div>
+</body></html>

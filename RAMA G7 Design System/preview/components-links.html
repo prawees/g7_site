@@ -1,0 +1,32 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#F4EFE6;padding:24px 28px;font-family:'IBM Plex Sans',system-ui,sans-serif}
+  .section{margin-bottom:24px}
+  .section-title{font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:#9AA0AB;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #DCD4C2}
+  .row{display:flex;align-items:center;gap:16px;margin-bottom:10px}
+  a.link{font-family:'Source Serif 4',Georgia,serif;font-size:1.05rem;color:#0E8A78;text-decoration:none;border-bottom:1px solid rgba(14,138,120,0.35)}
+  a.link:hover{color:#030F27;border-bottom-color:#030F27}
+  .cite-link{font-size:0.7em;vertical-align:super;line-height:0}
+  .cite-link a{border-bottom:0;color:#0E8A78;font-weight:600;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:0 0.15em}
+  .ref{font-family:'Source Serif 4',Georgia,serif;font-size:0.88rem;color:#5C6675;line-height:1.55}
+  .ref strong{color:#030F27;font-weight:600}
+  .blockquote{margin:0;padding-left:16px;border-left:2px solid #14B59D;font-style:italic;font-family:'Source Serif 4',Georgia,serif;font-size:1rem;color:#030F27;line-height:1.6}
+  .state-label{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#9AA0AB;width:60px;flex-shrink:0}
+</style></head><body>
+<div class="section">
+  <div class="section-title">Links</div>
+  <div class="row"><span class="state-label">Default</span><a class="link" href="#">deep learning model</a></div>
+  <div class="row"><span class="state-label">Hover →</span><a class="link" href="#" style="color:#030F27;border-bottom-color:#030F27">chest X-ray benchmark</a></div>
+  <div class="row"><span class="state-label">Citation</span><span style="font-family:'Source Serif 4',Georgia,serif;font-size:1rem">The model performs below clinical thresholds<span class="cite-link"><a href="#">[1]</a></span> in every evaluation<span class="cite-link"><a href="#">[2,3]</a></span>.</span></div>
+</div>
+<div class="section">
+  <div class="section-title">Blockquote</div>
+  <blockquote class="blockquote">A model cleared on US data may behave very differently on Thai patients without that ever being tested.</blockquote>
+</div>
+<div class="section">
+  <div class="section-title">Reference item (Vancouver)</div>
+  <div class="ref"><strong>1.</strong> Wu E, Wu K, Daneshjou R, Ouyang D, Ho DE, Zou J. How medical AI devices are evaluated. <em>Nat Med.</em> 2021;27(4):582–4.</div>
+</div>
+</body></html>
