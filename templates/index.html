@@ -101,6 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const speed = 1.2; 
 
   robots.forEach(robot => {
+    // Append to body to avoid transform containing block from .fade-up
+    document.body.appendChild(robot);
+    
     robot.style.position = 'fixed';
     robot.style.zIndex = '50';
     
