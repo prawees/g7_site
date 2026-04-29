@@ -294,6 +294,137 @@ def parse_tags(value):
     return [t.strip() for t in value.split(",") if t.strip()]
 
 
+def member_photo_html(m):
+    photo = m.get("photo", "")
+    if photo:
+        return f'<img src="/static/img/members/{html.escape(photo)}" alt="{html.escape(m.get("name",""))}">'
+    initials = (m.get("nickname") or m.get("name") or "").strip()[:2]
+    return f'<div class="member-initials">{html.escape(initials)}</div>'
+
+
+def load_members():
+    members_dir = ROOT / "content" / "members"
+    if not members_dir.exists():
+        return []
+    out = []
+    for md in sorted(members_dir.glob("*.md")):
+        if md.name.startswith("_"):
+            continue
+        meta, body = parse_frontmatter(md.read_text(encoding="utf-8"))
+        slug = re.sub(r"^\d+[-_]", "", md.stem)
+        meta["slug"] = slug
+        meta["url"] = f"/members/{slug}.html"
+        meta["bio_html"] = render_markdown(body) if body.strip() else ""
+        out.append(meta)
+    return out
+
+
+def find_member_by_author(author, members):
+    a = (author or "").strip().lower()
+    if not a:
+        return None
+    for m in members:
+        if (m.get("nickname") or "").strip().lower() == a:
+            return m
+    return None
+
+
+def render_members_section(members):
+    if not members:
+        return ""
+    cards = []
+    for m in members:
+        nickname_th = m.get("nickname_th", "")
+        role = m.get("role", "")
+        interests = m.get("interests", "")
+        nick_html = f'<div class="member-nick">{html.escape(nickname_th)}</div>' if nickname_th else ""
+        role_html = f'<div class="member-role">{html.escape(role)}</div>' if role else ""
+        interests_html = f'<div class="member-interests">{html.escape(interests)}</div>' if interests else ""
+        cards.append(f'''
+<a class="member-card" href="{m["url"]}">
+  <div class="member-photo">{member_photo_html(m)}</div>
+  <div class="member-body">
+    {nick_html}
+    <div class="member-name">{html.escape(m.get("name",""))}</div>
+    {role_html}
+    {interests_html}
+  </div>
+</a>''')
+    return f'''
+<h2>สมาชิก</h2>
+<div class="members-grid">{"".join(cards)}</div>'''
+
+
+def render_author_bio(member):
+    if not member:
+        return ""
+    interests = member.get("interests", "")
+    interests_html = f'<div class="author-bio-interests">{html.escape(interests)}</div>' if interests else ""
+    email = member.get("email", "")
+    email_html = f'<a class="author-bio-email" href="mailto:{html.escape(email)}">{html.escape(email)}</a>' if email else ""
+    nickname_th = member.get("nickname_th", "")
+    nick_html = f'<div class="author-bio-nick">{html.escape(nickname_th)}</div>' if nickname_th else ""
+    return f'''
+<aside class="author-bio">
+  <div class="author-bio-label">เกี่ยวกับผู้เขียน</div>
+  <div class="author-bio-card">
+    <div class="author-bio-photo">{member_photo_html(member)}</div>
+    <div class="author-bio-body">
+      {nick_html}
+      <a class="author-bio-name" href="{member["url"]}">{html.escape(member.get("name",""))}</a>
+      <div class="author-bio-role">{html.escape(member.get("role",""))}</div>
+      {interests_html}
+      {email_html}
+    </div>
+  </div>
+</aside>'''
+
+
+def build_member_page(member, posts):
+    own = [p for p in posts
+           if (p["author"] or "").strip().lower() == (member.get("nickname") or "").strip().lower()]
+    posts_html = ""
+    if own:
+        items = "".join(
+            f'<li><a href="{p["url"]}">{html.escape(p["title"])}</a><span class="member-post-date">{html.escape(p["date_label"])}</span></li>'
+            for p in own
+        )
+        posts_html = f'<h2>บทความที่เขียน</h2><ul class="member-posts">{items}</ul>'
+    interests = member.get("interests", "")
+    interests_html = f'<p><strong>Research interests.</strong> {html.escape(interests)}</p>' if interests else ""
+    email = member.get("email", "")
+    email_html = f'<p><strong>Contact.</strong> <a href="mailto:{html.escape(email)}">{html.escape(email)}</a></p>' if email else ""
+    nickname_th = member.get("nickname_th", "")
+    nick_block = f'<div class="member-profile-nick">{html.escape(nickname_th)}</div>' if nickname_th else ""
+
+    page_html = f'''
+<div class="member-profile fade-up">
+  <a class="article-back" href="/about.html">← About</a>
+  <div class="member-profile-head">
+    <div class="member-profile-photo">{member_photo_html(member)}</div>
+    <div class="member-profile-info">
+      {nick_block}
+      <h1>{html.escape(member.get("name",""))}</h1>
+      <p class="member-profile-role">{html.escape(member.get("role",""))}</p>
+    </div>
+  </div>
+  {member.get("bio_html","")}
+  {interests_html}
+  {email_html}
+  {posts_html}
+</div>'''
+
+    full = render_layout(
+        f'<div class="static-wrap">{page_html}</div>',
+        title=f'{member.get("name","")} | RAMA G7 Club',
+        description=f'Profile of {member.get("name","")} ({member.get("nickname","")}), {member.get("role","")}.',
+        active_nav="about",
+    )
+    out_path = PUBLIC / "members" / f"{member['slug']}.html"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(full, encoding="utf-8")
+
+
 def render_references_block(refs):
     if not refs:
         return ""
@@ -324,7 +455,8 @@ def render_layout(content, title, description, og_type="website",
     return out
 
 
-def build_post(md_path):
+def build_post(md_path, members=None):
+    members = members or []
     raw = md_path.read_text(encoding="utf-8")
     meta, body = parse_frontmatter(raw)
 
@@ -341,11 +473,28 @@ def build_post(md_path):
     post_template = read_template("post.html")
     rt = reading_time_minutes(body_main)
 
+    member = find_member_by_author(meta["author"], members)
+    if member:
+        author_byline = (
+            f'<p class="article-byline">By '
+            f'<a class="author-name" href="{member["url"]}">{html.escape(meta["author"])}</a>'
+            f', RAMA G7</p>'
+        )
+        author_bio = render_author_bio(member)
+    else:
+        author_byline = (
+            f'<p class="article-byline">By '
+            f'<span class="author-name">{html.escape(meta["author"])}</span>'
+            f', RAMA G7</p>'
+        )
+        author_bio = ""
+
     page = post_template
     page = page.replace("{{title}}", html.escape(meta["title"]))
     page = page.replace("{{lede}}", html.escape(meta["lede"]))
     page = page.replace("{{date_label}}", format_date_label(meta["date"]))
-    page = page.replace("{{author}}", html.escape(meta["author"]))
+    page = page.replace("{{author_byline}}", author_byline)
+    page = page.replace("{{author_bio}}", author_bio)
     page = page.replace("{{category}}", html.escape(meta["category"]))
     page = page.replace("{{reading_time}}", str(rt))
     page = page.replace("{{body}}", html_body)
@@ -353,9 +502,10 @@ def build_post(md_path):
 
     full_html = render_layout(
         page,
-        title=f'{meta["title"]} — RAMA G7 Club',
+        title=f'{meta["title"]} | RAMA G7 Club',
         description=meta.get("description", meta["lede"]),
         og_type="article",
+        active_nav="home",
     )
 
     slug = md_path.stem
@@ -420,7 +570,7 @@ def build_index(posts):
 
     full = render_layout(
         page,
-        title="RAMA G7 Club — Editorial",
+        title="RAMA G7 Club | Editorial",
         description="Editorial writing on medical AI and innovation by medical students at Ramathibodi Hospital.",
         active_nav="home",
     )
@@ -430,7 +580,7 @@ def build_index(posts):
 def build_static_page(slug, title, content_html, description, nav_key):
     page = f'<div class="static-wrap"><div class="static-page fade-up">{content_html}</div></div>'
     full = render_layout(
-        page, title=f"{title} — RAMA G7 Club",
+        page, title=f"{title} | RAMA G7 Club",
         description=description, active_nav=nav_key,
     )
     (PUBLIC / f"{slug}.html").write_text(full, encoding="utf-8")
@@ -450,12 +600,14 @@ def main():
 
     copy_static()
 
+    members = load_members()
+
     posts = []
     for md in sorted(CONTENT.glob("*.md")):
         if md.name.startswith("_"):
             continue
         try:
-            posts.append(build_post(md))
+            posts.append(build_post(md, members))
             print(f"  built post  {md.name}")
         except Exception as e:
             print(f"  FAILED      {md.name}: {e}", file=sys.stderr)
@@ -464,64 +616,54 @@ def main():
     build_index(posts)
     print(f"  built index ({len(posts)} posts)")
 
+    for m in members:
+        build_member_page(m, posts)
+    if members:
+        print(f"  built profiles ({len(members)} members)")
+
+    members_section = render_members_section(members)
     about_html = '''
-<h1>About RAMA G7</h1>
-<p class="lede">ชมรมแพทย์นวัตกรรามา — Medical Innovation Club at Ramathibodi Hospital, Mahidol University.</p>
+<h1>RAMA G7</h1>
+<p class="lede">ชมรมแพทย์นวัตกรรามาธิบดี</p>
 
-<p>RAMA G7 คือชมรมของนักศึกษาแพทย์รามาธิบดี ที่สร้าง ประเมิน และเขียนเรื่องเทคโนโลยีทางการแพทย์อย่างวิจารณ์ เว็บไซต์นี้ลงงานเขียนเรื่อง medical AI สัปดาห์ละหนึ่งชิ้น ทุกชิ้นมีชื่อผู้เขียน เรายึดว่าความเฉพาะเจาะจงสำคัญกว่าการโฆษณา และทุกข้อกล่าวอ้างต้องมีตัวเลขรองรับ</p>
+<p>กลุ่มนักศึกษาแพทย์รามาฯ ที่สนใจการสร้าง ประเมิน และเขียนเรื่องเทคโนโลยีทางการแพทย์ เว็บไซต์นี้รวบรวมงานเขียนด้าน Medical AI แบบเน้นข้อมูลเฉพาะเจาะจงและตัวเลขที่จับต้องได้</p>
 
-<p>งานของชมรมแบ่งเป็นสามสาย ข่าว medical AI แบบรวบรวมอัตโนมัติ ลงเฉพาะ Facebook งานเขียนบทความบนเว็บนี้ และงานสมาชิก ได้แก่ workshop, project journal, และ member spotlight</p>
+<h2>งานของชมรม</h2>
+<ul>
+  <li><strong>บทความบนเว็บ.</strong> งานเขียนด้าน Medical AI ที่ลงชื่อผู้เขียนชัดเจนและระบุข้อจำกัดของเทคโนโลยีนั้นๆ อย่างตรงไปตรงมา</li>
+  <li><strong>ข่าวสาร.</strong> สรุปประเด็น Medical AI แบบรวบรวมอัตโนมัติทาง Facebook</li>
+  <li><strong>พื้นที่สมาชิก.</strong> Workshop, Project Journal และ Member Spotlight</li>
+</ul>
 
-<p>การแก้ไขข้อมูลที่ผิดทำอย่างเปิดเผย ไม่ลบเงียบ ทุกชิ้นมีชื่อผู้เขียนและระบุข้อจำกัดอย่างน้อยหนึ่งข้อ</p>
+<h2>การแก้ไขข้อมูล</h2>
+<p>หากพบจุดที่ผิดพลาด เราจะแก้ไขข้อมูลอย่างเปิดเผยเพื่อให้ผู้อ่านทราบจุดที่ปรับปรุง</p>
 
-<hr>
-
-<p><strong>President</strong> — Big, Neurosurgery &amp; Robotics<br>
-<strong>Vice President / Editor</strong> — Smart, PM&amp;R<br>
-<strong>Contact</strong> — <a href="mailto:rama.g7.club@gmail.com">rama.g7.club@gmail.com</a></p>
-'''
+<h2>Team &amp; Contact</h2>
+<ul>
+  <li><strong>President.</strong> พี่บิ๊ก, ปรเมศวร์ วัฒนประสาน. <a href="mailto:porames.vat@student.mahidol.edu">porames.vat@student.mahidol.edu</a></li>
+  <li><strong>Vice President / Editor.</strong> พี่สมาร์ท, ประวีร์ สินวีรุทัย. <a href="mailto:prawee.sin@student.mahidol.edu">prawee.sin@student.mahidol.edu</a></li>
+  <li><strong>Club Email.</strong> <a href="mailto:rama.g7.club@gmail.com">rama.g7.club@gmail.com</a></li>
+</ul>
+''' + members_section
     build_static_page("about", "About", about_html,
                       "About RAMA G7 Club at Ramathibodi Hospital, Mahidol University.",
                       "about")
     print("  built about")
 
     join_html = '''
-<h1>Join RAMA G7</h1>
-<p class="lede">เรามองหานักศึกษาแพทย์รามาธิบดีที่อยากเขียน สร้าง หรือประเมินเทคโนโลยีทางการแพทย์ ความอยากรู้และความเฉพาะเจาะจงสำคัญกว่าโปรไฟล์</p>
+<h1>Join Us</h1>
+<p class="lede">เรามองหานักศึกษาแพทย์รามาฯ ที่สนใจอ่าน เขียน สร้าง หรือประเมินเทคโนโลยีไปด้วยกัน ไม่ต้องมีโปรไฟล์ แค่มีความอยากรู้อยากเห็นก็พอครับ</p>
 
-<form class="form" action="https://forms.gle/ps8oq7SiBsEVEcjK8" method="get" target="_blank" rel="noopener">
-  <div class="form-row">
-    <label>Name</label>
-    <input type="text" name="name" placeholder="Your name" required>
-  </div>
-  <div class="form-row">
-    <label>Year / Faculty</label>
-    <input type="text" name="year" placeholder="e.g. 5th year, Faculty of Medicine" required>
-  </div>
-  <div class="form-row">
-    <label>Email</label>
-    <input type="email" name="email" placeholder="Your email" required>
-  </div>
-  <div class="form-row">
-    <label>What do you want to work on?</label>
-    <textarea name="interests" rows="4" placeholder="Writing, building, evaluating — tell us what draws you here." required></textarea>
-  </div>
-  <button type="submit" class="btn">Send</button>
-</form>
-
-<hr>
-
-<p>Or apply directly via <a href="https://forms.gle/ps8oq7SiBsEVEcjK8" target="_blank" rel="noopener">forms.gle/ps8oq7SiBsEVEcjK8</a><br>
-Questions before applying — <a href="mailto:rama.g7.club@gmail.com">rama.g7.club@gmail.com</a></p>
+<p><a class="btn" href="mailto:rama.g7.club@gmail.com?subject=Join RAMA G7">ส่งอีเมลถึงเรา</a></p>
 '''
     build_static_page("join", "Join", join_html,
-                      "Join RAMA G7 Club. Application open for the 2026 cohort.",
+                      "Join RAMA G7 Club.",
                       "join")
     print("  built join")
 
     # 404
     notfound = '<div class="static-page"><h1>ไม่พบหน้านี้</h1><p>ลองกลับไปที่ <a href="/">หน้ารวมบทความ</a></p></div>'
-    full404 = render_layout(notfound, "Not found — RAMA G7 Club",
+    full404 = render_layout(notfound, "Not found | RAMA G7 Club",
                              "Page not found.", active_nav="")
     (PUBLIC / "404.html").write_text(full404, encoding="utf-8")
 
