@@ -353,12 +353,16 @@ main { padding: 0; }
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(244, 239, 230, 0.4);
-  transition: color 160ms ease, transform 350ms ease;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(3, 15, 39, 0.65);
+  padding: 4px 10px;
+  border-radius: 12px;
+  backdrop-filter: blur(4px);
+  transition: color 160ms ease, transform 350ms ease, background 160ms ease;
   margin-top: 10px;
 }
-.hero-robot.ig:hover span { color: #C13584; transform: translateY(5px); }
-.hero-robot.fb:hover span { color: #1877F2; transform: translateY(5px); }
+.hero-robot.ig:hover span { color: #fff; background: #C13584; transform: translateY(5px); }
+.hero-robot.fb:hover span { color: #fff; background: #1877F2; transform: translateY(5px); }
 
 @keyframes robotFly {
   /* No longer used for main position, JS handles movement. Kept for slight rotation if needed, but we can remove it entirely */

@@ -98,9 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const robots = document.querySelectorAll('.hero-robot');
   if (!robots.length) return;
 
-  const speed = 1.2; 
+  const speed = 0.6; // Slower, less distracting
 
-  robots.forEach(robot => {
+  robots.forEach((robot, index) => {
     // Append to body to avoid transform containing block from .fade-up
     document.body.appendChild(robot);
     
@@ -128,14 +128,17 @@ document.addEventListener('DOMContentLoaded', () => {
     robot.dataset.vy = vy;
     robot.dataset.x = x;
     robot.dataset.y = y;
+    robot.dataset.offsetY = 0; // for bobbing
+    robot.dataset.time = index * 1000; // random start time
   });
 
-  function animate() {
+  function animate(timeNow) {
     robots.forEach(robot => {
       let vx = parseFloat(robot.dataset.vx);
       let vy = parseFloat(robot.dataset.vy);
       let x = parseFloat(robot.dataset.x);
       let y = parseFloat(robot.dataset.y);
+      let time = parseFloat(robot.dataset.time) + 16; // approx 60fps
 
       const rect = robot.getBoundingClientRect();
       const width = rect.width;
@@ -163,10 +166,19 @@ document.addEventListener('DOMContentLoaded', () => {
       robot.style.left = x + 'px';
       robot.style.top = y + 'px';
       
+      // Sway based on velocity (tilt in direction of movement)
+      let tilt = vx * 15; // rotate based on X speed
+      
+      // Add a subtle sine-wave bob to the whole container to make it feel organic
+      let bob = Math.sin(time / 400) * 8; 
+      
+      robot.style.transform = `rotate(${tilt}deg) translateY(${bob}px)`;
+      
       robot.dataset.vx = vx;
       robot.dataset.vy = vy;
       robot.dataset.x = x;
       robot.dataset.y = y;
+      robot.dataset.time = time;
     });
     requestAnimationFrame(animate);
   }
