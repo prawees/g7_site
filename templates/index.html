@@ -41,7 +41,8 @@
             <rect class="robot-eye" x="40" y="26" width="6" height="8" rx="2" fill="#14B59D"/>
           </g>
           <g class="robot-eyes-squish" visibility="hidden">
-            <text x="35" y="31" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#14B59D" font-family="monospace" font-weight="bold">&gt;&lt;</text>
+            <text x="22" y="31" text-anchor="middle" dominant-baseline="middle" font-size="10" fill="#14B59D" font-family="'IBM Plex Mono',monospace" font-weight="700">&gt;</text>
+            <text x="48" y="31" text-anchor="middle" dominant-baseline="middle" font-size="10" fill="#14B59D" font-family="'IBM Plex Mono',monospace" font-weight="700">&lt;</text>
           </g>
           <rect x="17" y="52" width="36" height="26" rx="7" fill="url(#igBodyGrad)"/>
           <rect x="23" y="59" width="9" height="5" rx="2" fill="white" opacity="0.28"/>
@@ -77,7 +78,8 @@
             <rect class="robot-eye" x="49" y="29" width="8" height="11" rx="3" fill="#1877F2"/>
           </g>
           <g class="robot-eyes-squish" visibility="hidden">
-            <text x="40" y="36" text-anchor="middle" dominant-baseline="middle" font-size="13" fill="#1877F2" font-family="monospace" font-weight="bold">&gt;&lt;</text>
+            <text x="24" y="36" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#1877F2" font-family="'IBM Plex Mono',monospace" font-weight="700">&gt;</text>
+            <text x="56" y="36" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#1877F2" font-family="'IBM Plex Mono',monospace" font-weight="700">&lt;</text>
           </g>
           <rect x="14" y="61" width="52" height="33" rx="7" fill="url(#fbBodyGrad)"/>
           <text x="35" y="82" font-family="system-ui" font-size="15" font-weight="700" fill="white" opacity="0.3">f</text>
@@ -179,8 +181,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const mag = Math.sqrt(s.vx * s.vx + s.vy * s.vy);
         const maxSpd = 6;
         if (mag > maxSpd) { s.vx = s.vx / mag * maxSpd; s.vy = s.vy / mag * maxSpd; }
-        // Keep minimum glide
-        if (mag < SPEED) { s.vx = Math.cos(Math.random()*Math.PI*2)*SPEED; s.vy = Math.sin(Math.random()*Math.PI*2)*SPEED; }
+        // Keep minimum glide — very slow so user can read behind it
+        const MIN = 0.08;
+        if (mag < MIN) { const a = Math.random()*Math.PI*2; s.vx = Math.cos(a)*MIN; s.vy = Math.sin(a)*MIN; }
       }
     });
   }
