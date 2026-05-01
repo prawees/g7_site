@@ -40,6 +40,9 @@
             <rect class="robot-eye" x="24" y="26" width="6" height="8" rx="2" fill="#14B59D"/>
             <rect class="robot-eye" x="40" y="26" width="6" height="8" rx="2" fill="#14B59D"/>
           </g>
+          <g class="robot-eyes-squish" visibility="hidden">
+            <text x="35" y="31" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#14B59D" font-family="monospace" font-weight="bold">&gt;&lt;</text>
+          </g>
           <rect x="17" y="52" width="36" height="26" rx="7" fill="url(#igBodyGrad)"/>
           <rect x="23" y="59" width="9" height="5" rx="2" fill="white" opacity="0.28"/>
           <rect x="38" y="59" width="9" height="5" rx="2" fill="white" opacity="0.28"/>
@@ -73,6 +76,9 @@
             <rect class="robot-eye" x="23" y="29" width="8" height="11" rx="3" fill="#1877F2"/>
             <rect class="robot-eye" x="49" y="29" width="8" height="11" rx="3" fill="#1877F2"/>
           </g>
+          <g class="robot-eyes-squish" visibility="hidden">
+            <text x="40" y="36" text-anchor="middle" dominant-baseline="middle" font-size="13" fill="#1877F2" font-family="monospace" font-weight="bold">&gt;&lt;</text>
+          </g>
           <rect x="14" y="61" width="52" height="33" rx="7" fill="url(#fbBodyGrad)"/>
           <text x="35" y="82" font-family="system-ui" font-size="15" font-weight="700" fill="white" opacity="0.3">f</text>
         </svg>
@@ -98,87 +104,121 @@ document.addEventListener('DOMContentLoaded', () => {
   const robots = document.querySelectorAll('.hero-robot');
   if (!robots.length) return;
 
-  const speed = 0.6; // Slower, less distracting
+  const SPEED = 0.6;
+  const states = new Map();
 
   robots.forEach((robot, index) => {
-    // Append to body to avoid transform containing block from .fade-up
     document.body.appendChild(robot);
-    
     robot.style.position = 'fixed';
     robot.style.zIndex = '50';
-    
-    // Initial random position
-    let width = 80; 
-    let height = 120;
-    
-    let x = Math.random() * (window.innerWidth - width);
-    let y = Math.random() * (window.innerHeight - height);
-    
-    x = Math.max(0, Math.min(x, window.innerWidth - width));
-    y = Math.max(0, Math.min(y, window.innerHeight - height));
+    robot.style.cursor = 'grab';
 
-    let angle = Math.random() * Math.PI * 2;
-    let vx = Math.cos(angle) * speed;
-    let vy = Math.sin(angle) * speed;
+    const angle = Math.random() * Math.PI * 2;
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 140);
 
     robot.style.left = x + 'px';
-    robot.style.top = y + 'px';
+    robot.style.top  = y + 'px';
 
-    robot.dataset.vx = vx;
-    robot.dataset.vy = vy;
-    robot.dataset.x = x;
-    robot.dataset.y = y;
-    robot.dataset.offsetY = 0; // for bobbing
-    robot.dataset.time = index * 1000; // random start time
+    states.set(robot, {
+      x, y,
+      vx: Math.cos(angle) * SPEED,
+      vy: Math.sin(angle) * SPEED,
+      time: index * 1000,
+      dragging: false,
+      dragOffX: 0, dragOffY: 0,
+      trail: [],       // last N pointer positions for release velocity
+      dragMoved: false
+    });
   });
 
-  function animate(timeNow) {
+  function setSquish(robot, on) {
+    robot.querySelectorAll('.robot-eyes').forEach(g => g.setAttribute('visibility', on ? 'hidden' : 'visible'));
+    robot.querySelectorAll('.robot-eyes-squish').forEach(g => g.setAttribute('visibility', on ? 'visible' : 'hidden'));
+    robot.style.cursor = on ? 'grabbing' : 'grab';
+  }
+
+  function pointerDown(robot, clientX, clientY) {
+    const s = states.get(robot);
+    s.dragging = true;
+    s.dragMoved = false;
+    s.dragOffX = clientX - s.x;
+    s.dragOffY = clientY - s.y;
+    s.trail = [{x: clientX, y: clientY, t: performance.now()}];
+    setSquish(robot, true);
+  }
+
+  function pointerMove(clientX, clientY) {
     robots.forEach(robot => {
-      let vx = parseFloat(robot.dataset.vx);
-      let vy = parseFloat(robot.dataset.vy);
-      let x = parseFloat(robot.dataset.x);
-      let y = parseFloat(robot.dataset.y);
-      let time = parseFloat(robot.dataset.time) + 16; // approx 60fps
+      const s = states.get(robot);
+      if (!s.dragging) return;
+      s.dragMoved = true;
+      s.x = clientX - s.dragOffX;
+      s.y = clientY - s.dragOffY;
+      robot.style.left = s.x + 'px';
+      robot.style.top  = s.y + 'px';
+      s.trail.push({x: clientX, y: clientY, t: performance.now()});
+      if (s.trail.length > 8) s.trail.shift();
+    });
+  }
+
+  function pointerUp() {
+    robots.forEach(robot => {
+      const s = states.get(robot);
+      if (!s.dragging) return;
+      s.dragging = false;
+      setSquish(robot, false);
+      // Compute release velocity from recent trail
+      if (s.trail.length >= 2) {
+        const a = s.trail[0], b = s.trail[s.trail.length - 1];
+        const dt = (b.t - a.t) || 16;
+        const scale = 16 / dt; // normalise to ~60fps frame
+        s.vx = (b.x - a.x) * scale;
+        s.vy = (b.y - a.y) * scale;
+        // Cap speed so it doesn't fly off screen
+        const mag = Math.sqrt(s.vx * s.vx + s.vy * s.vy);
+        const maxSpd = 6;
+        if (mag > maxSpd) { s.vx = s.vx / mag * maxSpd; s.vy = s.vy / mag * maxSpd; }
+        // Keep minimum glide
+        if (mag < SPEED) { s.vx = Math.cos(Math.random()*Math.PI*2)*SPEED; s.vy = Math.sin(Math.random()*Math.PI*2)*SPEED; }
+      }
+    });
+  }
+
+  // Mouse events
+  robots.forEach(robot => {
+    robot.addEventListener('mousedown', e => { e.preventDefault(); pointerDown(robot, e.clientX, e.clientY); });
+    robot.addEventListener('click', e => { if (states.get(robot).dragMoved) e.preventDefault(); });
+    robot.addEventListener('touchstart', e => { e.preventDefault(); pointerDown(robot, e.touches[0].clientX, e.touches[0].clientY); }, {passive: false});
+  });
+  window.addEventListener('mousemove', e => pointerMove(e.clientX, e.clientY));
+  window.addEventListener('mouseup', pointerUp);
+  window.addEventListener('touchmove', e => { if ([...states.values()].some(s=>s.dragging)) { e.preventDefault(); pointerMove(e.touches[0].clientX, e.touches[0].clientY); } }, {passive: false});
+  window.addEventListener('touchend', pointerUp);
+
+  function animate() {
+    robots.forEach(robot => {
+      const s = states.get(robot);
+      if (s.dragging) return;
 
       const rect = robot.getBoundingClientRect();
-      const width = rect.width;
-      const height = rect.height;
+      const w = rect.width, h = rect.height;
 
-      x += vx;
-      y += vy;
+      s.x += s.vx;
+      s.y += s.vy;
 
-      if (x <= 0) {
-        x = 0;
-        vx *= -1;
-      } else if (x + width >= window.innerWidth) {
-        x = window.innerWidth - width;
-        vx *= -1;
-      }
+      if (s.x <= 0)                    { s.x = 0;                    s.vx *= -1; }
+      else if (s.x + w >= window.innerWidth)  { s.x = window.innerWidth - w;  s.vx *= -1; }
+      if (s.y <= 0)                    { s.y = 0;                    s.vy *= -1; }
+      else if (s.y + h >= window.innerHeight) { s.y = window.innerHeight - h; s.vy *= -1; }
 
-      if (y <= 0) {
-        y = 0;
-        vy *= -1;
-      } else if (y + height >= window.innerHeight) {
-        y = window.innerHeight - height;
-        vy *= -1;
-      }
+      s.time += 16;
+      const tilt = s.vx * 15;
+      const bob  = Math.sin(s.time / 400) * 8;
 
-      robot.style.left = x + 'px';
-      robot.style.top = y + 'px';
-      
-      // Sway based on velocity (tilt in direction of movement)
-      let tilt = vx * 15; // rotate based on X speed
-      
-      // Add a subtle sine-wave bob to the whole container to make it feel organic
-      let bob = Math.sin(time / 400) * 8; 
-      
+      robot.style.left = s.x + 'px';
+      robot.style.top  = s.y + 'px';
       robot.style.transform = `rotate(${tilt}deg) translateY(${bob}px)`;
-      
-      robot.dataset.vx = vx;
-      robot.dataset.vy = vy;
-      robot.dataset.x = x;
-      robot.dataset.y = y;
-      robot.dataset.time = time;
     });
     requestAnimationFrame(animate);
   }
