@@ -2,6 +2,6 @@
 name: กรชนก ศรีวัฒนา
 nickname: Gaew
 role: Member
-interests: AI, Robotics
+interests: Computer vision, Image processing, Ophthalmology
 photo: gaew.jpg
 ---
