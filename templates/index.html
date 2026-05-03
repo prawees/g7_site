@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const maxSpd = 6;
         if (mag > maxSpd) { s.vx = s.vx / mag * maxSpd; s.vy = s.vy / mag * maxSpd; }
         // Keep minimum glide — very slow so user can read behind it
-        const MIN = 0.08;
+        const MIN = 0.03;
         if (mag < MIN) { const a = Math.random()*Math.PI*2; s.vx = Math.cos(a)*MIN; s.vy = Math.sin(a)*MIN; }
       }
     });
@@ -197,7 +197,19 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('mousemove', e => pointerMove(e.clientX, e.clientY));
   window.addEventListener('mouseup', pointerUp);
   window.addEventListener('touchmove', e => { if ([...states.values()].some(s=>s.dragging)) { e.preventDefault(); pointerMove(e.touches[0].clientX, e.touches[0].clientY); } }, {passive: false});
-  window.addEventListener('touchend', pointerUp);
+  window.addEventListener('touchend', () => {
+    robots.forEach(robot => {
+      const s = states.get(robot);
+      if (!s.dragging) return;
+      const wasTap = !s.dragMoved;
+      pointerUp();
+      // touchstart preventDefault blocks synthetic click — navigate manually on tap
+      if (wasTap) {
+        const href = robot.getAttribute('href');
+        if (href) window.open(href, '_blank', 'noopener,noreferrer');
+      }
+    });
+  });
 
   function animate() {
     robots.forEach(robot => {
