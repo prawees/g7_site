@@ -4,6 +4,6 @@ nickname_th: เอิร์น
 nickname: Earn
 role: Member
 email: yanisa.sag@student.mahidol.edu
-interests: Wearable sensors, GI monitoring
+interests: Sensors, GI monitoring
 photo: earn.jpeg
 ---
