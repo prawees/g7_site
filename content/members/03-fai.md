@@ -1,6 +1,6 @@
 ---
 name: ณัฐจิรา เดโชพลชัย
-nickname_th: ฝาย
+nickname_th: ฝ้าย
 nickname: Fai
 role: Member
 email: natchira.dac@student.mahidol.edu
