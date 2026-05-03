@@ -1,4 +1,4 @@
-# g7.prawees.com
+# g7club.org
 
 The RAMA G7 Club editorial site. A static site generated from Markdown, deployed to Hostinger.
 
@@ -115,27 +115,10 @@ We use a small fixed set of categories to keep the index scannable.
 
 Add a new category only when there is a real reason to. More categories means more cognitive load for the reader.
 
-## Deployment to g7.prawees.com via Hostinger
+## Deployment to g7club.org via Hostinger
 
 Two pieces. First the one-time setup. Then the per-push flow.
 
-### One-time setup
-
-#### 1. Configure the subdomain in Hostinger
-
-In the Hostinger control panel.
-
-1. Go to **Hosting** then **Domains** then **Subdomains**.
-2. Create a new subdomain `g7` under `prawees.com`. Hostinger will create a folder, typically `/home/<user>/domains/prawees.com/public_html/g7` or `/public_html/g7/` depending on your hosting plan. Note the exact path. This is your `FTP_SERVER_DIR`.
-3. Wait for DNS to propagate. Usually a few minutes.
-
-#### 2. Get the FTP credentials
-
-1. In Hostinger, go to **Files** then **FTP Accounts**.
-2. Either use the main FTP account or create a dedicated one for deployments. A dedicated account scoped to the `g7` folder is more secure.
-3. Note the FTP host (typically `ftp.prawees.com` or an IP), the username, and the password.
-
-#### 3. Create the GitHub repository
 
 ```
 cd /path/to/g7_site
@@ -147,28 +130,15 @@ git remote add origin git@github.com:<your-handle>/rama-g7-site.git
 git push -u origin main
 ```
 
-#### 4. Add the GitHub secrets
+First deploy
 
-In the GitHub repository, go to **Settings** then **Secrets and variables** then **Actions**. Add four repository secrets.
-
-| Secret name | Value |
-|---|---|
-| `FTP_HOST` | The FTP host from Hostinger, like `ftp.prawees.com` |
-| `FTP_USER` | The FTP username |
-| `FTP_PASSWORD` | The FTP password |
-| `FTP_SERVER_DIR` | The remote path, like `/public_html/g7/` |
-
-Important. The `FTP_SERVER_DIR` value must end with a forward slash.
-
-#### 5. First deploy
-
-Push to main, or trigger the workflow manually from the **Actions** tab. The first run takes about a minute. If it succeeds, visit https://g7.prawees.com to confirm.
+Push to main, or trigger the workflow manually from the **Actions** tab. The first run takes about a minute. If it succeeds, visit https://g7club.org to confirm.
 
 If it fails, check the action logs. The most common failures are listed in the troubleshooting section below.
 
 #### 6. Enable HTTPS
 
-In Hostinger control panel, go to the subdomain SSL settings and enable the free Let's Encrypt SSL for `g7.prawees.com`. This is a one-click toggle on most plans. Wait a few minutes for issuance.
+In Hostinger control panel, go to the subdomain SSL settings and enable the free Let's Encrypt SSL for `g7club.org`. This is a one-click toggle on most plans. Wait a few minutes for issuance.
 
 ### Per-push flow
 
