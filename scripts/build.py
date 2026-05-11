@@ -331,6 +331,10 @@ def find_member_by_author(author, members):
     for m in members:
         if (m.get("nickname") or "").strip().lower() == a:
             return m
+        if a and a in (m.get("name_en") or "").strip().lower():
+            return m
+        if a and a in (m.get("name") or "").strip().lower():
+            return m
     return None
 
 
@@ -391,7 +395,7 @@ def build_member_page(member, posts):
     posts_html = ""
     if own:
         items = "".join(
-            f'<li><a href="{p["url"]}">{html.escape(p["title"])}</a><span class="member-post-date">{html.escape(p["date_label"])}</span></li>'
+            f'<li><a href="{p["url"]}?v={{{{build_time}}}}">{html.escape(p["title"])}</a><span class="member-post-date">{html.escape(p["date_label"])}</span></li>'
             for p in own
         )
         posts_html = f'<h2>บทความที่เขียน</h2><ul class="member-posts">{items}</ul>'
@@ -547,8 +551,26 @@ def build_index(posts):
             for t in p["tags"]
         )
         thumb_class = f"t{(i - 1) % 3}"
+        
+        img_match = re.search(r'<img\s+src="([^"]+)"', p["body_html"])
+        if img_match:
+            img_src = img_match.group(1)
+            thumb_html = f'''
+    <img src="{img_src}" alt="{html.escape(p["title"])}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+    <div class="post-card-thumb-fade"></div>'''
+        else:
+            thumb_html = f'''
+    <div class="post-card-thumb-grad {thumb_class}">
+      <svg width="40" height="40" viewBox="0 0 44 44" fill="none" style="opacity:0.25">
+        <rect x="8" y="4" width="28" height="36" rx="2" stroke="white" stroke-width="1.5"/>
+        <circle cx="22" cy="22" r="9" stroke="white" stroke-width="1.5"/>
+        <line x1="22" y1="4" x2="22" y2="40" stroke="white" stroke-width="0.75" stroke-dasharray="2 2"/>
+      </svg>
+    </div>
+    <div class="post-card-thumb-fade"></div>'''
+
         cards.append(f'''
-<a class="post-card" href="{p["url"]}">
+<a class="post-card" href="{p["url"]}?v={{{{build_time}}}}">
   <div class="post-card-content">
     <div class="post-card-toprow">
       <span class="post-card-num">{i:02d}</span>
@@ -563,14 +585,7 @@ def build_index(posts):
     <div class="post-card-author">{html.escape(p["author"])}, RAMA G7</div>
   </div>
   <div class="post-card-thumb">
-    <div class="post-card-thumb-grad {thumb_class}">
-      <svg width="40" height="40" viewBox="0 0 44 44" fill="none" style="opacity:0.25">
-        <rect x="8" y="4" width="28" height="36" rx="2" stroke="white" stroke-width="1.5"/>
-        <circle cx="22" cy="22" r="9" stroke="white" stroke-width="1.5"/>
-        <line x1="22" y1="4" x2="22" y2="40" stroke="white" stroke-width="0.75" stroke-dasharray="2 2"/>
-      </svg>
-    </div>
-    <div class="post-card-thumb-fade"></div>
+    {thumb_html}
   </div>
 </a>''')
 

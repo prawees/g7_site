@@ -1,5 +1,6 @@
 ---
 name: ปรเมศวร์ วัฒนประสาน
+name_en: Porames Vattanaprasan
 nickname_th: บิ๊ก
 nickname: Big
 role: President
