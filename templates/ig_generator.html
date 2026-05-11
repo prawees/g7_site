@@ -174,7 +174,12 @@
     function getMemberHtml(authorName) {
       if (!authorName) return '';
       const a = authorName.toLowerCase().trim();
-      const member = members.find(m => m.nickname && m.nickname.toLowerCase().trim() === a);
+      const member = members.find(m => {
+        const nick = (m.nickname || "").toLowerCase().trim();
+        const nEn = (m.name_en || "").toLowerCase().trim();
+        const n = (m.name || "").toLowerCase().trim();
+        return nick === a || (nEn && nEn.includes(a)) || (n && n.includes(a));
+      });
       
       let photoHtml = '';
       let roleHtml = 'RAMA G7 Member';
@@ -274,7 +279,7 @@
             continue;
         }
         
-        if (currentChunk.length >= 2) {
+        if (currentChunk.length >= 1) {
             chunks.push(currentChunk.join(''));
             currentChunk = [];
         }

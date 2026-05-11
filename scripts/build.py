@@ -617,7 +617,7 @@ def build_ig_generator(posts, members):
     # Convert lists to JSON to inject into script
     posts_json = json.dumps(posts, ensure_ascii=False)
     # For members we only need basic info
-    members_min = [{"nickname": m.get("nickname"), "name": m.get("name"), "photo": m.get("photo"), "role": m.get("role")} for m in members]
+    members_min = [{"nickname": m.get("nickname"), "name": m.get("name"), "name_en": m.get("name_en"), "photo": m.get("photo"), "role": m.get("role")} for m in members]
     members_json = json.dumps(members_min, ensure_ascii=False)
     
     page = template.replace("{{posts_json}}", posts_json).replace("{{members_json}}", members_json)
