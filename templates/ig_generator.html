@@ -41,6 +41,10 @@
       box-shadow: 0 20px 40px rgba(0,0,0,0.2);
     }
     
+    .slide.cover-slide { padding: 0; }
+    .slide.cover-slide .slide-inner-box { border-radius: 0; }
+    .slide.cover-slide .slide-inner { padding: 130px 120px; }
+    
     /* When exporting, we'll temporarily remove scaling */
     .exporting .slide { transform: scale(1); margin-right: 20px; margin-bottom: 0; box-shadow: none; }
     
@@ -234,7 +238,7 @@
 
     function createSlide(contentHtml, pageNum, totalPages, authorHtml = '', bgImgUrl = '') {
       const div = document.createElement('div');
-      div.className = 'slide';
+      div.className = bgImgUrl ? 'slide cover-slide' : 'slide';
       
       let footerLeft = '';
       if (authorHtml) {
@@ -247,7 +251,7 @@
       let coverModeClass = '';
       let overlay = '';
       if (bgImgUrl) {
-        bgStyle = `background: url('${bgImgUrl}') center 15% / cover no-repeat;`;
+        bgStyle = `background: url('${bgImgUrl}?v=${Date.now()}') center 15% / cover no-repeat;`;
         coverModeClass = 'cover-mode';
         overlay = `<div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%); z-index: 1;"></div>`;
       }
