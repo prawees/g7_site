@@ -119,6 +119,16 @@
     .references h3 { font-family: var(--font-ui); font-size: 32px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink); margin-bottom: 30px; }
     .references li { margin-bottom: 20px; color: var(--muted); }
 
+    .slide-inner-box.cover-mode .slide-category { color: white; }
+    .slide-inner-box.cover-mode .slide-title { color: white; }
+    .slide-inner-box.cover-mode .slide-subtitle { color: rgba(255,255,255,0.8); }
+    .slide-inner-box.cover-mode .page-num { color: rgba(255,255,255,0.7); }
+    .slide-inner-box.cover-mode .brand-logo { color: white; }
+    .slide-inner-box.cover-mode .brand-tag { color: rgba(255,255,255,0.7); }
+    .slide-inner-box.cover-mode .slide-footer { border-top-color: rgba(255,255,255,0.3); }
+    .slide-inner-box.cover-mode .author-name { color: white; }
+    .slide-inner-box.cover-mode .author-role { color: rgba(255,255,255,0.8); }
+
     .speech-bubble {
       position: relative;
       background: var(--ink);
@@ -222,7 +232,7 @@
       `;
     }
 
-    function createSlide(contentHtml, pageNum, totalPages, authorHtml = '') {
+    function createSlide(contentHtml, pageNum, totalPages, authorHtml = '', bgImgUrl = '') {
       const div = document.createElement('div');
       div.className = 'slide';
       
@@ -233,8 +243,18 @@
         footerLeft = `<div class="page-num">${pageNum} / ${totalPages}</div>`;
       }
 
+      let bgStyle = '';
+      let coverModeClass = '';
+      let overlay = '';
+      if (bgImgUrl) {
+        bgStyle = `background: url('${bgImgUrl}') center center / cover no-repeat;`;
+        coverModeClass = 'cover-mode';
+        overlay = `<div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%); z-index: 1;"></div>`;
+      }
+
       div.innerHTML = `
-        <div class="slide-inner-box">
+        <div class="slide-inner-box ${coverModeClass}" style="${bgStyle}">
+          ${overlay}
           <div class="slide-bg"></div>
           <div class="slide-inner">
             ${contentHtml}
@@ -260,9 +280,9 @@
       tempDiv.innerHTML = post.body_html;
       
       const firstImg = tempDiv.querySelector('img');
-      let heroHtml = '';
+      let coverImgUrl = '';
       if (firstImg) {
-        heroHtml = `<div style="text-align: center; margin-bottom: 50px;"><img src="${firstImg.getAttribute('src')}" style="max-width: 100%; max-height: 480px; border-radius: 12px; box-shadow: 0 15px 30px rgba(0,0,0,0.15);"></div>`;
+        coverImgUrl = firstImg.getAttribute('src');
         firstImg.remove();
         tempDiv.querySelectorAll('p').forEach(p => { if (p.innerHTML.trim() === '') p.remove(); });
       }
@@ -314,17 +334,17 @@
 
       let subtitleHtml = post.subtitle ? `<div class="slide-subtitle">${post.subtitle}</div>` : '';
       const s1Content = `
-        <div class="slide-header">
+        <div style="flex: 1;"></div>
+        <div class="slide-header" style="flex: none; position: relative; z-index: 2;">
           <div class="slide-category">
             <span>${post.category}</span>
             ${tagHtml}
           </div>
-          ${heroHtml}
           <div class="slide-title">${post.title}</div>
           ${subtitleHtml}
         </div>
       `;
-      slides.push(createSlide(s1Content, 1, totalPages, authorHtml));
+      slides.push(createSlide(s1Content, 1, totalPages, authorHtml, coverImgUrl));
 
       // Slide 2: Lede in speech bubble
       const ledeContent = `
