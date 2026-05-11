@@ -92,6 +92,7 @@
     .slide-body li { margin-bottom: 20px; }
     .slide-body h2 { font-family: var(--font-display); font-size: 64px; font-weight: 700; margin-top: 60px; margin-bottom: 30px; letter-spacing: -0.01em; color: var(--accent-deep); }
     .slide-body h3 { font-family: var(--font-display); font-size: 52px; font-weight: 600; margin-top: 50px; margin-bottom: 30px; letter-spacing: -0.01em; }
+    .slide-body img { max-width: 100%; max-height: 480px; object-fit: contain; border-radius: 12px; margin: 30px auto; display: block; box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
     
     .slide-footer { margin-top: auto; border-top: 3px solid var(--rule); padding-top: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
     
@@ -101,6 +102,12 @@
     .author-info { display: flex; flex-direction: column; }
     .author-name { font-family: var(--font-thai); font-size: 42px; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
     .author-role { font-family: var(--font-ui); font-size: 28px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-deep); font-weight: 600; }
+    
+    .author-block.large { flex-direction: column; }
+    .author-block.large .author-photo { width: 280px; height: 280px; border-radius: 140px; margin: 0 auto 40px; }
+    .author-block.large .author-info { align-items: center; }
+    .author-block.large .author-name { font-size: 64px; }
+    .author-block.large .author-role { font-size: 36px; }
     
     .brand-block { text-align: right; }
     .brand-logo { font-family: var(--font-wordmark); font-size: 56px; font-weight: 700; color: var(--ink); letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; margin-bottom: 15px;}
@@ -361,7 +368,7 @@
       const authorSlideContent = `
         <div class="slide-body" style="align-items: center; text-align: center;">
           <div class="slide-category" style="margin-bottom: 20px;">ผู้เขียน</div>
-          ${authorHtml.replace('author-photo', 'author-photo" style="width: 280px; height: 280px; border-radius: 140px; margin: 0 auto 40px;').replace('author-info', 'author-info" style="align-items: center;').replace('author-name', 'author-name" style="font-size: 64px;').replace('author-role', 'author-role" style="font-size: 36px;').replace('author-block', 'author-block" style="flex-direction: column;')}
+          ${authorHtml.replace('author-block', 'author-block large')}
         </div>
       `;
       slides.push(createSlide(authorSlideContent, finalPageNum, totalPages, null));
