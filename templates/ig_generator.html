@@ -250,16 +250,18 @@
       let bgStyle = '';
       let coverModeClass = '';
       let overlay = '';
+      let slideBgHtml = '<div class="slide-bg"></div>';
       if (bgImgUrl) {
         bgStyle = `background: url('${bgImgUrl}?v=${Date.now()}') center 15% / cover no-repeat;`;
         coverModeClass = 'cover-mode';
-        overlay = `<div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%); z-index: 1;"></div>`;
+        overlay = `<div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.7) 100%); z-index: 1;"></div>`;
+        slideBgHtml = '';
       }
 
       div.innerHTML = `
         <div class="slide-inner-box ${coverModeClass}" style="${bgStyle}">
           ${overlay}
-          <div class="slide-bg"></div>
+          ${slideBgHtml}
           <div class="slide-inner">
             ${contentHtml}
             <div class="slide-footer">
