@@ -120,7 +120,7 @@
     .references li { margin-bottom: 20px; color: var(--muted); }
 
     .slide-inner-box.cover-mode .slide-category { color: white; }
-    .slide-inner-box.cover-mode .slide-title { color: white; }
+    .slide-inner-box.cover-mode .slide-title { color: white; font-size: 56px; }
     .slide-inner-box.cover-mode .slide-subtitle { color: rgba(255,255,255,0.8); }
     .slide-inner-box.cover-mode .page-num { color: rgba(255,255,255,0.7); }
     .slide-inner-box.cover-mode .brand-logo { color: white; }
@@ -247,7 +247,7 @@
       let coverModeClass = '';
       let overlay = '';
       if (bgImgUrl) {
-        bgStyle = `background: url('${bgImgUrl}') center center / cover no-repeat;`;
+        bgStyle = `background: url('${bgImgUrl}') center 15% / cover no-repeat;`;
         coverModeClass = 'cover-mode';
         overlay = `<div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%); z-index: 1;"></div>`;
       }
