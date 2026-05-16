@@ -47,6 +47,8 @@
     
     /* When exporting, we'll temporarily remove scaling */
     .exporting .slide { transform: scale(1); margin-right: 20px; margin-bottom: 0; box-shadow: none; }
+    /* Hide SVG noise during export because html2canvas renders it as a solid grey block */
+    .exporting .slide-bg { display: none; }
     
     .slide-inner-box {
       background: var(--paper);
