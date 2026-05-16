@@ -254,7 +254,7 @@
       if (bgImgUrl) {
         bgStyle = `background: url('${bgImgUrl}?v=${Date.now()}') center 15% / cover no-repeat;`;
         coverModeClass = 'cover-mode';
-        overlay = `<div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.7) 100%); z-index: 1;"></div>`;
+        overlay = `<div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%); z-index: 1;"></div>`;
         slideBgHtml = '';
       }
 
@@ -293,7 +293,7 @@
         tempDiv.querySelectorAll('p').forEach(p => { if (p.innerHTML.trim() === '') p.remove(); });
       }
 
-      const elements = Array.from(tempDiv.querySelectorAll('p, h2, h3, ul, ol, blockquote'));
+      const elements = Array.from(tempDiv.querySelectorAll('h2, h3, ul, ol, blockquote, p:not(blockquote p):not(li p)'));
       
       const chunks = [];
       let currentChunk = [];
@@ -340,7 +340,6 @@
 
       let subtitleHtml = post.subtitle ? `<div class="slide-subtitle">${post.subtitle}</div>` : '';
       const s1Content = `
-        <div style="flex: 1;"></div>
         <div class="slide-header" style="flex: none; position: relative; z-index: 2;">
           <div class="slide-category">
             <span>${post.category}</span>
