@@ -4,4 +4,5 @@ nickname: Ren
 role: Member
 email: achira.yib@student.mahidol.edu
 interests: Serious game, NLP
+photo: ren.jpg
 ---
