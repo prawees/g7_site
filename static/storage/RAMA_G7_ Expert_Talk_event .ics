@@ -1,0 +1,12 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:2026-05-20T10:27:25.239Z@calendarlinkgenerator.com
+DTSTAMP:20260520T102725Z
+DTSTART;TZID=Asia/Bangkok:20260530T130000
+DTEND;TZID=Asia/Bangkok:20260530T140000
+SUMMARY:RAMA G7: Expert Talk 
+DESCRIPTION:Onsite: MIND Center อาคาร 4 ชั้นใต้ดิน คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี (พญาไท) Online: Zoom จะส่งให้ทาง Email
+LOCATION:
+END:VEVENT
+END:VCALENDAR
