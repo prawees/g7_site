@@ -45,6 +45,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content" / "posts"
+ACTIVITIES = ROOT / "content" / "activities"
 TEMPLATES = ROOT / "templates"
 STATIC = ROOT / "static"
 PUBLIC = ROOT / "public"
@@ -531,6 +532,7 @@ def build_post(md_path, members=None):
         "date": meta["date"],
         "date_label": format_date_label(meta["date"]),
         "author": meta["author"],
+        "thumbnail": meta.get("thumbnail"),
         "category": meta["category"],
         "tags": parse_tags(meta.get("tags", "")),
         "summary": meta.get("summary", meta["lede"]),
@@ -541,8 +543,9 @@ def build_post(md_path, members=None):
     }
 
 
-def build_index(posts):
+def build_index(posts, activities):
     posts = sorted(posts, key=lambda p: p["date"], reverse=True)
+    activities = sorted(activities, key=lambda p: p["date"], reverse=True)
 
     cards = []
     for i, p in enumerate(posts, 1):
@@ -589,9 +592,27 @@ def build_index(posts):
   </div>
 </a>''')
 
+    activities_cards = []
+    for i, p in enumerate(activities, 1):
+        activities_cards.append(f'''
+        <a href="{p["url"]}">
+        <div class="col-md-6 col-lg-4">
+            <div class="activity-card">
+                <img src="{p["thumbnail"]}" alt="Post image">
+
+                <div class="activity-title">
+                    <h4>{html.escape(p["title"])}</h4>
+                    <p>{html.escape(p["tags"][0])} • {html.escape(p["date_label"])}</p>
+                </div>
+            </div>
+        </div>      
+        </a>                          
+        ''')
+
     index_template = read_template("index.html")
     page = index_template.replace("{{post_cards}}", "\n".join(cards))
-
+    
+    page = page.replace("{{activities}}", "\n".join(activities_cards))
     full = render_layout(
         page,
         title="RAMA G7 Club | Editorial",
@@ -654,7 +675,18 @@ def main():
             print(f"  FAILED      {md.name}: {e}", file=sys.stderr)
             sys.exit(1)
 
-    build_index(posts)
+    activities = []
+    for md in sorted(ACTIVITIES.glob("*.md")):
+        if md.name.startswith("_"):
+            continue
+        try:
+            activities.append(build_post(md, members))
+            print(f"  built post  {md.name}")
+        except Exception as e:
+            print(f"  FAILED      {md.name}: {e}", file=sys.stderr)
+            sys.exit(1)
+
+    build_index(posts,activities)
     print(f"  built index ({len(posts)} posts)")
 
     for m in members:
