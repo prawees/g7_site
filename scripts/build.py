@@ -555,12 +555,12 @@ def build_index(posts, activities):
         )
         thumb_class = f"t{(i - 1) % 3}"
         
-        img_match = re.search(r'<img\s+src="([^"]+)"', p["body_html"])
-        if img_match:
-            img_src = img_match.group(1)
+        thumbnail_url = p["thumbnail"]
+        
+        if thumbnail_url:
             thumb_html = f'''
-    <img src="{img_src}" alt="{html.escape(p["title"])}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
-    <div class="post-card-thumb-fade"></div>'''
+    <img src="{thumbnail_url}" alt="{html.escape(p["title"])}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+    '''
         else:
             thumb_html = f'''
     <div class="post-card-thumb-grad {thumb_class}">
@@ -570,7 +570,7 @@ def build_index(posts, activities):
         <line x1="22" y1="4" x2="22" y2="40" stroke="white" stroke-width="0.75" stroke-dasharray="2 2"/>
       </svg>
     </div>
-    <div class="post-card-thumb-fade"></div>'''
+    '''
 
         cards.append(f'''
 <a class="post-card" href="{p["url"]}?v={{{{build_time}}}}">
