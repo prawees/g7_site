@@ -7,12 +7,19 @@ category: activities
 tags: PRISM series
 summary:
 description:
-thumbnail: /static/img/PRISM_1_cover.png
+thumbnail: /static/img/prism_1_cover.jpeg
 ---
 
-## ลงทะเบียนเข้าร่วมกิจกรรม
+จบไปแล้วนะครับสำหรับกิจกรรม **PRISM series: Perspectives on AI Transforming Medical Practice, Education, and Innovation** ชวนทุกคนตั้งคำถามว่า การเข้ามาของ AI จะเปลี่ยนแปลงการแพทย์ไปในทิศทางใด ผ่านมุมมองของวิทยากรจากหลากหลายสาขา
 
-<div class="container" style="background-color: white; padding: 12px; border-radius: 10px">
-<iframe data-tally-src="https://tally.so/embed/aQlZK9?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="100" frameborder="0" marginheight="0" marginwidth="0" title="ลงทะเบียนเข้าร่วมงาน PRISM series Presented By RAMA G7"></iframe>
-<script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+กิจกรรมเต็มไปด้วยการแลกเปลี่ยนมุมมองในประเด็นที่กำลังเป็นที่ถกเถียงของ AI ในทางการแพทย์ โดยนักศึกษาแพทย์และนักวิจัยตัวจริงที่ทำงานด้าน AI หวังว่ากิจกรรมครั้งนี้จะเป็นประโยชน์ จุดประกายแนวคิดใหม่ ๆ และสร้างแรงบันดาลใจให้กับทุกคนที่สนใจ AI และอนาคตของการแพทย์ แล้วพบกันใหม่ในกิจกรรมครั้งต่อไปครับ
+
+**Panelists**
+
+- ณภัทร ศรีจันทร์ - NLP & LLM researcher, University of California, Santa Cruz
+- วัชรพงศ์ ทิมคล้ายพชร - นักศึกษาแพทย์ M.D.-M.Eng., BioDat LAB
+- สิรภพ นาคะวัจนะ - นักศึกษาแพทย์ M.D.-M.Eng., AIM Lab
+
+<div class="youtube-container">
+<iframe src="https://www.youtube.com/embed/LiLz8LhQZmU?si=f2Y66P8mIIu9r6BQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
